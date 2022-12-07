@@ -20,6 +20,9 @@ sudo -u mastodon git fetch --all
 sudo -u mastodon git checkout glitch-soc/main
 sudo -u mastodon git pull glitch-soc main
 
+# pull & apply latest patches
+. $(dirname "$0")/apply_patches.sh
+
 # update dependencies
 echo "Updating deps..."
 sudo -u mastodon "$RBENV_ROOT/shims/bundle" install --jobs "$(getconf _NPROCESSORS_ONLN)"
