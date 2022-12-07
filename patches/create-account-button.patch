@@ -1,0 +1,24 @@
+diff --git a/app/javascript/mastodon/features/ui/components/header.js b/app/javascript/mastodon/features/ui/components/header.js
+index 1384bebda..89becd19b 100644
+--- a/app/javascript/mastodon/features/ui/components/header.js
++++ b/app/javascript/mastodon/features/ui/components/header.js
+@@ -68,7 +68,6 @@ class Header extends React.PureComponent {
+       content = (
+         <>
+           <a href='/auth/sign_in' className='button'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
+-          {signupButton}
+         </>
+       );
+     }
+diff --git a/app/javascript/mastodon/features/ui/components/sign_in_banner.js b/app/javascript/mastodon/features/ui/components/sign_in_banner.js
+index 8bd32edf9..f11ab1893 100644
+--- a/app/javascript/mastodon/features/ui/components/sign_in_banner.js
++++ b/app/javascript/mastodon/features/ui/components/sign_in_banner.js
+@@ -32,7 +32,6 @@ const SignInBanner = () => {
+     <div className='sign-in-banner'>
+       <p><FormattedMessage id='sign_in_banner.text' defaultMessage='Sign in to follow profiles or hashtags, favourite, share and reply to posts, or interact from your account on a different server.' /></p>
+       <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
+-      {signupButton}
+     </div>
+   );
+ };

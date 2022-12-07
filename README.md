@@ -1,0 +1,5 @@
+# Mastodon customizations
+
+## License
+
+MIT
