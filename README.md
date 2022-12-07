@@ -1,10 +1,10 @@
-# Mastodon customizations
+# 🦣 Mastodon customizations
 
-Random opinionated helper scripts & front-end customizations for my [personal Mastodon instance](https://fediverse.jarv.is/about) (running on [`glitch-soc`](https://github.com/glitch-soc/mastodon)). You probably don't want to use any of this as-is.
+Random opinionated helper scripts & front-end customizations for my [personal Mastodon instance](https://fediverse.jarv.is/about) (running on [`glitch-soc`](https://github.com/glitch-soc/mastodon)). You definitely don't want to use any of this as-is.
 
 ## Usage
 
-**DEFINITELY DO NOT JUST RUN THIS IF YOU'RE NOT ME!!! 😊**
+**AGAIN, DEFINITELY DO NOT JUST RUN THIS IF YOU'RE NOT ME!!! 😊**
 
 ```sh
 git clone https://github.com/jakejarvis/mastodon-scripts.git /home/mastodon/scripts
