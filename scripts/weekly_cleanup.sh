@@ -10,5 +10,3 @@ set -e
 
 tootctl media remove --days 7
 tootctl preview_cards remove --days 90
-
-curl -X GET 'https://betteruptime.com/api/v1/heartbeat/EZYUHRmbatzh4tBfTvzX22go'
