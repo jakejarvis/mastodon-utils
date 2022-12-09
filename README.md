@@ -8,14 +8,21 @@ Random opinionated helper scripts & front-end customizations for my [personal Ma
 
 ```sh
 git clone https://github.com/jakejarvis/mastodon-scripts.git /home/mastodon/scripts
-git config --global --add safe.directory /home/mastodon/scripts
 
+# apply vanilla patches:
 cd /home/mastodon/live
-git apply --allow-binary-replacement --whitespace=warn /home/mastodon/scripts/patches/*.patch /home/mastodon/scripts/glitch/*.patch || true
-RAILS_ENV=production bundle exec rails assets:precompile
+git apply --allow-binary-replacement /home/mastodon/scripts/patches/*.patch
 
+# apply glitch-only patches:
+if [ -d /home/mastodon/live/app/javascript/flavours/glitch ]; then
+  git apply --allow-binary-replacement /home/mastodon/scripts/patches/glitch/*.patch
+fi
+
+# compile new assets:
+RAILS_ENV=production bundle exec rails assets:precompile
 chown -R mastodon:mastodon /home/mastodon/{scripts,live}
 
+# restart Mastodon:
 systemctl restart mastodon-*
 ```
 

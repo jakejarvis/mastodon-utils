@@ -2,6 +2,6 @@
 
 set -e
 
-. $(dirname "$0")/tootctl_shim.sh
+. "$(dirname "$0")/tootctl_shim.sh"
 
 tootctl version

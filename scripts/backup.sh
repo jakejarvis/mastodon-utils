@@ -5,6 +5,8 @@ set -euo pipefail
 
 # default paths
 MASTODON_ROOT=/home/mastodon
+APP_ROOT="$MASTODON_ROOT/live"
+BACKUPS_ROOT="$MASTODON_ROOT/backups"
 
 if [ "$(systemctl is-active mastodon-web.service)" = "active" ]
 then
@@ -14,10 +16,10 @@ then
   echo ""
 fi
 
-if [ ! -d "$MASTODON_ROOT/backups" ]
+if [ ! -d "$BACKUPS_ROOT" ]
 then
-  sudo mkdir -p "$MASTODON_ROOT/backups"
-  sudo chown -R mastodon:mastodon "$MASTODON_ROOT/backups"
+  sudo mkdir -p "$BACKUPS_ROOT"
+  sudo chown -R mastodon:mastodon "$BACKUPS_ROOT"
 fi
 
 TEMP_DIR=$(sudo -u mastodon mktemp -d)
@@ -32,7 +34,7 @@ echo "Backing up secrets..."
 sudo cp "$MASTODON_ROOT/live/.env.production" "$TEMP_DIR/env.production"
 
 echo "Compressing..."
-ARCHIVE_DEST="$MASTODON_ROOT/backups/$(date "+%Y.%m.%d-%H.%M.%S").tar.gz"
+ARCHIVE_DEST="$BACKUPS_ROOT/$(date "+%Y.%m.%d-%H.%M.%S").tar.gz"
 sudo tar --owner=0 --group=0 -czvf "$ARCHIVE_DEST" -C "$TEMP_DIR" .
 sudo chown mastodon:mastodon "$ARCHIVE_DEST"
 

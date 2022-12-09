@@ -3,7 +3,9 @@
 set -e
 
 MASTODON_ROOT=/home/mastodon
+APP_ROOT="$MASTODON_ROOT/live"
+RBENV_ROOT="$MASTODON_ROOT/.rbenv"
 
 tootctl() {
-  ( cd "$MASTODON_ROOT/live" && sudo -u mastodon RAILS_ENV=production "$MASTODON_ROOT/.rbenv/shims/ruby" "$MASTODON_ROOT/live/bin/tootctl" "$@" )
+  ( cd "$APP_ROOT" && sudo -u mastodon RAILS_ENV=production "$RBENV_ROOT/shims/ruby" "$APP_ROOT/bin/tootctl" "$@" )
 }
