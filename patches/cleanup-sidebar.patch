@@ -1,0 +1,49 @@
+diff --git a/app/javascript/flavours/glitch/features/ui/components/navigation_panel.js b/app/javascript/flavours/glitch/features/ui/components/navigation_panel.js
+index 3b46c6eec..4999c273c 100644
+--- a/app/javascript/flavours/glitch/features/ui/components/navigation_panel.js
++++ b/app/javascript/flavours/glitch/features/ui/components/navigation_panel.js
+@@ -2,6 +2,7 @@ import React from 'react';
+ import PropTypes from 'prop-types';
+ import { defineMessages, injectIntl } from 'react-intl';
+ import { Link } from 'react-router-dom';
++import Logo from 'flavours/glitch/components/logo';
+ import { timelinePreview, showTrends } from 'flavours/glitch/initial_state';
+ import ColumnLink from 'flavours/glitch/features/ui/components/column_link';
+ import DisabledAccountBanner from './disabled_account_banner';
+@@ -47,6 +48,11 @@ class NavigationPanel extends React.Component {
+ 
+     return (
+       <div className='navigation-panel'>
++        <div className='navigation-panel__logo'>
++          <Link to='/' className='column-link column-link--logo'><Logo /></Link>
++          <hr />
++        </div>
++
+         {signedIn && (
+           <React.Fragment>
+             <ColumnLink transparent to='/home' icon='home' text={intl.formatMessage(messages.home)} />
+@@ -55,14 +61,13 @@ class NavigationPanel extends React.Component {
+           </React.Fragment>
+         )}
+ 
+-        {showTrends ? (
++        {showTrends && (
+           <ColumnLink transparent to='/explore' icon='hashtag' text={intl.formatMessage(messages.explore)} />
+-        ) : (
+-          <ColumnLink transparent to='/search' icon='search' text={intl.formatMessage(messages.search)} />
+         )}
+ 
+         {(signedIn || timelinePreview) && (
+           <>
++            <ColumnLink transparent to='/search' icon='search' text={intl.formatMessage(messages.search)} />
+             <ColumnLink transparent to='/public/local' icon='users' text={intl.formatMessage(messages.local)} />
+             <ColumnLink transparent exact to='/public' icon='globe' text={intl.formatMessage(messages.federated)} />
+           </>
+@@ -70,7 +75,6 @@ class NavigationPanel extends React.Component {
+ 
+         {!signedIn && (
+           <div className='navigation-panel__sign-in-banner'>
+-            <hr />
+             { disabledAccountId ? <DisabledAccountBanner /> : <SignInBanner /> }
+           </div>
+         )}

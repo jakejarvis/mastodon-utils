@@ -21,6 +21,7 @@ systemctl restart mastodon-*
 
 ## Patches
 
+- [`cleanup-sidebar.patch`](patches/cleanup-sidebar.patch): Removes redudant search button from sidebar (glitch-soc only)
 - [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`hide-contact-email.patch`](patches/hide-contact-email.patch): Hides the `mailto:` link on the About page
 - [`hide-rules.patch`](patches/hide-rules.patch): Applies just to homepage, meant only for single-user instances
