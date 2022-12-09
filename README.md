@@ -31,7 +31,7 @@ systemctl restart mastodon-*
   - [Additional `glitch-soc` patch](patches/glitch/hide-rules.patch)
 - [`hide-signup.patch`](patches/hide-signup.patch): Hide the "create account" button (for aesthetics, **not security!**)
   - [Additional `glitch-soc` patch](patches/glitch/hide-signup.patch)
-- [`glitch-soc` only] [`cleanup-sidebar.patch`](patches/glitch/cleanup-sidebar.patch): Removes redudant search button from sidebar
+- [`glitch-soc` only] [`sidebar-logo.patch`](patches/glitch/sidebar-logo.patch): Restore Mastodon logo in logged-out sidebar
 
 ## License
 
