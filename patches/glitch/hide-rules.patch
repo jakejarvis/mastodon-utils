@@ -1,8 +1,8 @@
-diff --git a/app/javascript/mastodon/features/about/index.js b/app/javascript/mastodon/features/about/index.js
-index e59f73738..3468ad19e 100644
---- a/app/javascript/mastodon/features/about/index.js
-+++ b/app/javascript/mastodon/features/about/index.js
-@@ -15,7 +15,6 @@ import Image from 'mastodon/components/image';
+diff --git a/app/javascript/flavours/glitch/features/about/index.js b/app/javascript/flavours/glitch/features/about/index.js
+index 57f295ea9..e27a30292 100644
+--- a/app/javascript/flavours/glitch/features/about/index.js
++++ b/app/javascript/flavours/glitch/features/about/index.js
+@@ -15,7 +15,6 @@ import Image from 'flavours/glitch/components/image';
 
  const messages = defineMessages({
    title: { id: 'column.about', defaultMessage: 'About' },
