@@ -1,0 +1,38 @@
+diff --git a/app/javascript/flavours/glitch/features/about/index.js b/app/javascript/flavours/glitch/features/about/index.js
+index 57f295ea9..0992ba767 100644
+--- a/app/javascript/flavours/glitch/features/about/index.js
++++ b/app/javascript/flavours/glitch/features/about/index.js
+@@ -127,14 +127,6 @@ class About extends React.PureComponent {
+ 
+               <Account id={server.getIn(['contact', 'account', 'id'])} size={36} />
+             </div>
+-
+-            <hr className='about__meta__divider' />
+-
+-            <div className='about__meta__column'>
+-              <h4><FormattedMessage id='about.contact' defaultMessage='Contact:' /></h4>
+-
+-              {isLoading ? <Skeleton width='10ch' /> : <a className='about__mail' href={`mailto:${server.getIn(['contact', 'email'])}`}>{server.getIn(['contact', 'email'])}</a>}
+-            </div>
+           </div>
+ 
+           <Section open title={intl.formatMessage(messages.title)}>
+diff --git a/app/javascript/mastodon/features/about/index.js b/app/javascript/mastodon/features/about/index.js
+index e59f73738..0cb11216e 100644
+--- a/app/javascript/mastodon/features/about/index.js
++++ b/app/javascript/mastodon/features/about/index.js
+@@ -127,14 +127,6 @@ class About extends React.PureComponent {
+ 
+               <Account id={server.getIn(['contact', 'account', 'id'])} size={36} />
+             </div>
+-
+-            <hr className='about__meta__divider' />
+-
+-            <div className='about__meta__column'>
+-              <h4><FormattedMessage id='about.contact' defaultMessage='Contact:' /></h4>
+-
+-              {isLoading ? <Skeleton width='10ch' /> : <a className='about__mail' href={`mailto:${server.getIn(['contact', 'email'])}`}>{server.getIn(['contact', 'email'])}</a>}
+-            </div>
+           </div>
+ 
+           <Section open title={intl.formatMessage(messages.title)}>

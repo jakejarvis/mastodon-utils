@@ -1,0 +1,66 @@
+diff --git a/app/javascript/flavours/glitch/features/about/index.js b/app/javascript/flavours/glitch/features/about/index.js
+index 57f295ea9..e27a30292 100644
+--- a/app/javascript/flavours/glitch/features/about/index.js
++++ b/app/javascript/flavours/glitch/features/about/index.js
+@@ -15,7 +15,6 @@ import Image from 'flavours/glitch/components/image';
+ 
+ const messages = defineMessages({
+   title: { id: 'column.about', defaultMessage: 'About' },
+-  rules: { id: 'about.rules', defaultMessage: 'Server rules' },
+   blocks: { id: 'about.blocks', defaultMessage: 'Moderated servers' },
+   silenced: { id: 'about.domain_blocks.silenced.title', defaultMessage: 'Limited' },
+   silencedExplanation: { id: 'about.domain_blocks.silenced.explanation', defaultMessage: 'You will generally not see profiles and content from this server, unless you explicitly look it up or opt into it by following.' },
+@@ -158,20 +157,6 @@ class About extends React.PureComponent {
+             ))}
+           </Section>
+ 
+-          <Section title={intl.formatMessage(messages.rules)}>
+-            {!isLoading && (server.get('rules').isEmpty() ? (
+-              <p><FormattedMessage id='about.not_available' defaultMessage='This information has not been made available on this server.' /></p>
+-            ) : (
+-              <ol className='rules-list'>
+-                {server.get('rules').map(rule => (
+-                  <li key={rule.get('id')}>
+-                    <span className='rules-list__text'>{rule.get('text')}</span>
+-                  </li>
+-                ))}
+-              </ol>
+-            ))}
+-          </Section>
+-
+           <Section title={intl.formatMessage(messages.blocks)} onOpen={this.handleDomainBlocksOpen}>
+             {domainBlocks.get('isLoading') ? (
+               <>
+diff --git a/app/javascript/mastodon/features/about/index.js b/app/javascript/mastodon/features/about/index.js
+index e59f73738..3468ad19e 100644
+--- a/app/javascript/mastodon/features/about/index.js
++++ b/app/javascript/mastodon/features/about/index.js
+@@ -15,7 +15,6 @@ import Image from 'mastodon/components/image';
+ 
+ const messages = defineMessages({
+   title: { id: 'column.about', defaultMessage: 'About' },
+-  rules: { id: 'about.rules', defaultMessage: 'Server rules' },
+   blocks: { id: 'about.blocks', defaultMessage: 'Moderated servers' },
+   silenced: { id: 'about.domain_blocks.silenced.title', defaultMessage: 'Limited' },
+   silencedExplanation: { id: 'about.domain_blocks.silenced.explanation', defaultMessage: 'You will generally not see profiles and content from this server, unless you explicitly look it up or opt into it by following.' },
+@@ -158,20 +157,6 @@ class About extends React.PureComponent {
+             ))}
+           </Section>
+ 
+-          <Section title={intl.formatMessage(messages.rules)}>
+-            {!isLoading && (server.get('rules').isEmpty() ? (
+-              <p><FormattedMessage id='about.not_available' defaultMessage='This information has not been made available on this server.' /></p>
+-            ) : (
+-              <ol className='rules-list'>
+-                {server.get('rules').map(rule => (
+-                  <li key={rule.get('id')}>
+-                    <span className='rules-list__text'>{rule.get('text')}</span>
+-                  </li>
+-                ))}
+-              </ol>
+-            ))}
+-          </Section>
+-
+           <Section title={intl.formatMessage(messages.blocks)} onOpen={this.handleDomainBlocksOpen}>
+             {domainBlocks.get('isLoading') ? (
+               <>
