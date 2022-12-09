@@ -21,10 +21,10 @@ systemctl restart mastodon-*
 
 ## Patches
 
+- [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`hide-contact-email.patch`](patches/hide-contact-email.patch): Hides the `mailto:` link on the About page
 - [`hide-rules.patch`](patches/hide-rules.patch): Applies just to homepage, meant only for single-user instances
 - [`hide-signup.patch`](patches/hide-signup.patch): Hide the "create account" button (for aesthetics, **not security!**)
-- [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`robots.patch`](patches/robots.patch): Disallow search engines for all of Mastodon
 - [`system-font.patch`](patches/system-font.patch): Use the system's default sans-serif font stack instead of Roboto
 
