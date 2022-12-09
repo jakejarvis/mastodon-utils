@@ -1,26 +1,103 @@
 diff --git a/app/javascript/flavours/glitch/styles/basics.scss b/app/javascript/flavours/glitch/styles/basics.scss
-index a00b2936f..f5d67b27e 100644
+index a00b2936f..340294d73 100644
 --- a/app/javascript/flavours/glitch/styles/basics.scss
 +++ b/app/javascript/flavours/glitch/styles/basics.scss
-@@ -6,7 +6,7 @@
- }
+@@ -18,21 +18,6 @@ body {
+   -webkit-tap-highlight-color: rgba(0,0,0,0);
+   -webkit-tap-highlight-color: transparent;
  
- body {
--  font-family: $font-sans-serif, sans-serif;
-+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", $font-sans-serif, sans-serif;
-   background: darken($ui-base-color, 7%);
-   font-size: 13px;
-   line-height: 18px;
+-  &.system-font {
+-    // system-ui => standard property (Chrome/Android WebView 56+, Opera 43+, Safari 11+)
+-    // -apple-system => Safari <11 specific
+-    // BlinkMacSystemFont => Chrome <56 on macOS specific
+-    // Segoe UI => Windows 7/8/10
+-    // Oxygen => KDE
+-    // Ubuntu => Unity/Ubuntu
+-    // Cantarell => GNOME
+-    // Fira Sans => Firefox OS
+-    // Droid Sans => Older Androids (<4.0)
+-    // Helvetica Neue => Older macOS <10.11
+-    // $font-sans-serif => web-font (Roboto) fallback and newer Androids (>=4.0)
+-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", $font-sans-serif, sans-serif;
+-  }
+-
+   &.app-body {
+     padding: 0;
+ 
+diff --git a/app/javascript/flavours/glitch/styles/index.scss b/app/javascript/flavours/glitch/styles/index.scss
+index fbb02c788..3946684ed 100644
+--- a/app/javascript/flavours/glitch/styles/index.scss
++++ b/app/javascript/flavours/glitch/styles/index.scss
+@@ -1,7 +1,5 @@
+ @import 'mixins';
+ @import 'variables';
+-@import 'styles/fonts/roboto';
+-@import 'styles/fonts/roboto-mono';
+ 
+ @import 'reset';
+ @import 'basics';
+diff --git a/app/javascript/flavours/glitch/styles/variables.scss b/app/javascript/flavours/glitch/styles/variables.scss
+index b865b5a2d..dc1130708 100644
+--- a/app/javascript/flavours/glitch/styles/variables.scss
++++ b/app/javascript/flavours/glitch/styles/variables.scss
+@@ -53,9 +53,9 @@ $media-modal-media-max-height: 80%;
+ 
+ $no-gap-breakpoint: 1175px;
+ 
+-$font-sans-serif: 'mastodon-font-sans-serif' !default;
+-$font-display: 'mastodon-font-display' !default;
+-$font-monospace: 'mastodon-font-monospace' !default;
++$font-sans-serif: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue" !default;
++$font-display: $font-sans-serif !default;
++$font-monospace: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New" !default;
+ 
+ // Avatar border size (8% default, 100% for rounded avatars)
+ $ui-avatar-border-size: 8%;
+diff --git a/app/javascript/styles/application.scss b/app/javascript/styles/application.scss
+index 81a040108..01c840180 100644
+--- a/app/javascript/styles/application.scss
++++ b/app/javascript/styles/application.scss
+@@ -1,7 +1,5 @@
+ @import 'mastodon/mixins';
+ @import 'mastodon/variables';
+-@import 'fonts/roboto';
+-@import 'fonts/roboto-mono';
+ 
+ @import 'mastodon/reset';
+ @import 'mastodon/basics';
+diff --git a/app/javascript/styles/mailer.scss b/app/javascript/styles/mailer.scss
+index 18fe522eb..16ffb8b2f 100644
+--- a/app/javascript/styles/mailer.scss
++++ b/app/javascript/styles/mailer.scss
+@@ -1,5 +1,4 @@
+ @import 'mastodon/variables';
+-@import 'fonts/roboto';
+ 
+ table,
+ td,
 diff --git a/app/javascript/styles/mastodon/basics.scss b/app/javascript/styles/mastodon/basics.scss
-index 413a1cdd6..efdd7bbd0 100644
+index 413a1cdd6..fccbf2763 100644
 --- a/app/javascript/styles/mastodon/basics.scss
 +++ b/app/javascript/styles/mastodon/basics.scss
-@@ -7,7 +7,7 @@
- }
+@@ -19,21 +19,6 @@ body {
+   -webkit-tap-highlight-color: rgba(0, 0, 0, 0%);
+   -webkit-tap-highlight-color: transparent;
  
- body {
--  font-family: $font-sans-serif, sans-serif;
-+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", $font-sans-serif, sans-serif;
-   background: darken($ui-base-color, 7%);
-   font-size: 13px;
-   line-height: 18px;
+-  &.system-font {
+-    // system-ui => standard property (Chrome/Android WebView 56+, Opera 43+, Safari 11+)
+-    // -apple-system => Safari <11 specific
+-    // BlinkMacSystemFont => Chrome <56 on macOS specific
+-    // Segoe UI => Windows 7/8/10
+-    // Oxygen => KDE
+-    // Ubuntu => Unity/Ubuntu
+-    // Cantarell => GNOME
+-    // Fira Sans => Firefox OS
+-    // Droid Sans => Older Androids (<4.0)
+-    // Helvetica Neue => Older macOS <10.11
+-    // $font-sans-serif => web-font (Roboto) fallback and newer Androids (>=4.0)
+-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", $font-sans-serif, sans-serif;
+-  }
+-
+   &.app-body {
+     padding: 0;
+ 
