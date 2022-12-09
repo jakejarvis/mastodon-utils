@@ -101,3 +101,17 @@ index 413a1cdd6..fccbf2763 100644
    &.app-body {
      padding: 0;
  
+diff --git a/app/javascript/styles/mastodon/variables.scss b/app/javascript/styles/mastodon/variables.scss
+index 2f6c41d5f..b968ea42d 100644
+--- a/app/javascript/styles/mastodon/variables.scss
++++ b/app/javascript/styles/mastodon/variables.scss
+@@ -55,6 +55,6 @@ $media-modal-media-max-height: 80%;
+ 
+ $no-gap-breakpoint: 1175px;
+ 
+-$font-sans-serif: 'mastodon-font-sans-serif' !default;
+-$font-display: 'mastodon-font-display' !default;
+-$font-monospace: 'mastodon-font-monospace' !default;
++$font-sans-serif: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue" !default;
++$font-display: $font-sans-serif !default;
++$font-monospace: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New" !default;
