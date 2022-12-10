@@ -6,6 +6,7 @@ set -euo pipefail
 # default paths
 MASTODON_ROOT=/home/mastodon
 APP_ROOT="$MASTODON_ROOT/live"
+SCRIPTS_ROOT="$MASTODON_ROOT/scripts"
 RBENV_ROOT="$MASTODON_ROOT/.rbenv"
 
 # check for existing installation
@@ -17,6 +18,7 @@ fi
 # pull latest mastodon source
 cd "$APP_ROOT"
 sudo -u mastodon git fetch --all
+sudo -u mastodon git stash push --message "pre-upgrade changes"
 if [ -d "$APP_ROOT/app/javascript/flavours/glitch" ]; then
   # glitch-soc (uses latest commits)
   echo "Pulling latest glitch-soc commits..."
@@ -28,7 +30,7 @@ else
 fi
 
 # pull & apply latest patches
-. "$(dirname "$0")/apply_patches.sh"
+. "$SCRIPTS_ROOT/scripts/apply_patches.sh"
 
 # set new ruby version
 RUBY_VERSION="$(sudo -u mastodon cat $APP_ROOT/.ruby-version)"
@@ -42,7 +44,7 @@ sudo -u mastodon SKIP_POST_DEPLOYMENT_MIGRATIONS=true RAILS_ENV=production "$RBE
 
 # restart mastodon
 echo "Restarting services (round 1/2)..."
-sudo systemctl restart mastodon-sidekiq mastodon-streaming
+sudo systemctl restart mastodon-web mastodon-sidekiq mastodon-streaming
 
 # clear caches & run post-deployment db migration
 echo "Clearing cache..."

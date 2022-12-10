@@ -19,11 +19,6 @@ then
   sudo git config --global --add safe.directory "$SCRIPTS_ROOT"
 fi
 
-# pull latest patches
-cd "$SCRIPTS_ROOT"
-sudo -u mastodon git fetch origin --all
-sudo -u mastodon git reset origin/main --hard
-
 # apply custom patches
 cd "$APP_ROOT"
 sudo -u mastodon git apply --allow-binary-replacement "$SCRIPTS_ROOT"/patches/*.patch
