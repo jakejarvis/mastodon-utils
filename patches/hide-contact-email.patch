@@ -3,7 +3,7 @@ index e59f73738..0cb11216e 100644
 --- a/app/javascript/mastodon/features/about/index.js
 +++ b/app/javascript/mastodon/features/about/index.js
 @@ -127,14 +127,6 @@ class About extends React.PureComponent {
-
+ 
                <Account id={server.getIn(['contact', 'account', 'id'])} size={36} />
              </div>
 -
@@ -15,5 +15,5 @@ index e59f73738..0cb11216e 100644
 -              {isLoading ? <Skeleton width='10ch' /> : <a className='about__mail' href={`mailto:${server.getIn(['contact', 'email'])}`}>{server.getIn(['contact', 'email'])}</a>}
 -            </div>
            </div>
-
+ 
            <Section open title={intl.formatMessage(messages.title)}>

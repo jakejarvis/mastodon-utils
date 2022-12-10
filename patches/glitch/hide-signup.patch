@@ -8,7 +8,7 @@ index b71c041c9..b9bb32341 100644
              <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
 -            {signupButton}
            </div>
-
+ 
            <div className='interaction-modal__choices__choice'>
 diff --git a/app/javascript/flavours/glitch/features/ui/components/header.js b/app/javascript/flavours/glitch/features/ui/components/header.js
 index d9ad94961..9a1f31531 100644

@@ -3,7 +3,7 @@ index e59f73738..3468ad19e 100644
 --- a/app/javascript/mastodon/features/about/index.js
 +++ b/app/javascript/mastodon/features/about/index.js
 @@ -15,7 +15,6 @@ import Image from 'mastodon/components/image';
-
+ 
  const messages = defineMessages({
    title: { id: 'column.about', defaultMessage: 'About' },
 -  rules: { id: 'about.rules', defaultMessage: 'Server rules' },
@@ -13,7 +13,7 @@ index e59f73738..3468ad19e 100644
 @@ -158,20 +157,6 @@ class About extends React.PureComponent {
              ))}
            </Section>
-
+ 
 -          <Section title={intl.formatMessage(messages.rules)}>
 -            {!isLoading && (server.get('rules').isEmpty() ? (
 -              <p><FormattedMessage id='about.not_available' defaultMessage='This information has not been made available on this server.' /></p>

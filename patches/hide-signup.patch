@@ -8,7 +8,7 @@ index d4535378f..153c50991 100644
              <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
 -            {signupButton}
            </div>
-
+ 
            <div className='interaction-modal__choices__choice'>
 diff --git a/app/javascript/mastodon/features/ui/components/header.js b/app/javascript/mastodon/features/ui/components/header.js
 index 1384bebda..89becd19b 100644
@@ -41,13 +41,13 @@ index f078e2f7e..6e106cd92 100644
 @@ -5,14 +5,8 @@
      - if controller_name != 'sessions'
        %li= link_to_login t('auth.login')
-
+ 
 -    - if controller_name != 'registrations'
 -      %li= link_to t('auth.register'), available_sign_up_path
 -
      - if controller_name != 'passwords' && controller_name != 'registrations'
        %li= link_to t('auth.forgot_password'), new_user_password_path
-
+ 
 -  - if controller_name != 'confirmations' && (!user_signed_in? || !current_user.confirmed? || current_user.unconfirmed_email.present?)
 -    %li= link_to t('auth.didnt_get_confirmation'), new_user_confirmation_path
 -

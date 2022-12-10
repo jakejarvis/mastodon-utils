@@ -7,7 +7,7 @@ index 81a040108..01c840180 100644
  @import 'mastodon/variables';
 -@import 'fonts/roboto';
 -@import 'fonts/roboto-mono';
-
+ 
  @import 'mastodon/reset';
  @import 'mastodon/basics';
 diff --git a/app/javascript/styles/mailer.scss b/app/javascript/styles/mailer.scss
@@ -17,7 +17,7 @@ index 18fe522eb..16ffb8b2f 100644
 @@ -1,5 +1,4 @@
  @import 'mastodon/variables';
 -@import 'fonts/roboto';
-
+ 
  table,
  td,
 diff --git a/app/javascript/styles/mastodon/basics.scss b/app/javascript/styles/mastodon/basics.scss
@@ -27,7 +27,7 @@ index 413a1cdd6..fccbf2763 100644
 @@ -19,21 +19,6 @@ body {
    -webkit-tap-highlight-color: rgba(0, 0, 0, 0%);
    -webkit-tap-highlight-color: transparent;
-
+ 
 -  &.system-font {
 -    // system-ui => standard property (Chrome/Android WebView 56+, Opera 43+, Safari 11+)
 -    // -apple-system => Safari <11 specific
@@ -45,25 +45,15 @@ index 413a1cdd6..fccbf2763 100644
 -
    &.app-body {
      padding: 0;
-<<<<<<< Updated upstream
  
-=======
-
->>>>>>> Stashed changes
 diff --git a/app/javascript/styles/mastodon/variables.scss b/app/javascript/styles/mastodon/variables.scss
 index 2f6c41d5f..b968ea42d 100644
 --- a/app/javascript/styles/mastodon/variables.scss
 +++ b/app/javascript/styles/mastodon/variables.scss
 @@ -55,6 +55,6 @@ $media-modal-media-max-height: 80%;
-<<<<<<< Updated upstream
  
  $no-gap-breakpoint: 1175px;
  
-=======
-
- $no-gap-breakpoint: 1175px;
-
->>>>>>> Stashed changes
 -$font-sans-serif: 'mastodon-font-sans-serif' !default;
 -$font-display: 'mastodon-font-display' !default;
 -$font-monospace: 'mastodon-font-monospace' !default;
