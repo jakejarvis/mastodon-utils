@@ -6,30 +6,41 @@
 
 ## Exporters
 
-- https://github.com/prometheus/node_exporter
-- https://github.com/oliver006/redis_exporter
 - https://github.com/prometheus-community/postgres_exporter
 - https://github.com/prometheus/statsd_exporter
+- https://github.com/oliver006/redis_exporter
+- https://github.com/prometheus/node_exporter
 - https://github.com/nginxinc/nginx-prometheus-exporter
 - https://github.com/prometheus-community/json_exporter
 
----
+## Installation
+
+repeat for each exporter:
 
 ```bash
-wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
-tar xvf node_exporter-1.3.1.linux-amd64.tar.gz
-cp node_exporter-1.3.1.linux-amd64/node_exporter /usr/local/bin/
+wget https://github.com/oliver006/redis_exporter/releases/download/v1.45.0/redis_exporter-v1.45.0.linux-amd64.tar.gz
+tar xvf redis_exporter-v1.45.0.linux-amd64.tar.gz
+cp redis_exporter-v1.45.0.linux-amd64/redis_exporter /usr/local/bin/
 
-useradd --no-create-home --shell /bin/false node_exporter
-chown node_exporter:node_exporter /usr/local/bin/node_exporter
+useradd --no-create-home --shell /bin/false redis_exporter
+chown redis_exporter:redis_exporter /usr/local/bin/redis_exporter
 
-nano /etc/system/systemd/node-exporter.service # see below
+nano /etc/system/systemd/redis-exporter.service # see below
 
 systemctl daemon-reload
 systemctl enable --now redis-exporter.service
+systemctl status redis-exporter.service
 ```
 
 ## Config
+
+/home/mastodon/live/.env.production:
+
+```
+STATSD_ADDR=localhost:9125
+```
+
+---
 
 /etc/prometheus/prometheus.yml:
 
@@ -123,6 +134,7 @@ modules:
         hostname: "{.hostname}"
 
     headers:
+      # https://cloud.linode.com/profile/tokens
       Authorization: "Bearer XXXXXX"
 ```
 
@@ -226,14 +238,6 @@ mappings:
     name: "mastodon_sidekiq_$1"
     labels:
       mastodon: "sidekiq"
-```
-
----
-
-/home/mastodon/live/.env.production:
-
-```
-STATSD_ADDR=localhost:9125
 ```
 
 ---
