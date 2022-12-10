@@ -98,10 +98,26 @@ scrape_configs:
     metrics_path: /probe
     scrape_interval: 30s
     params:
-      module: [linode]
+      module: [linode_bucket]
     static_configs:
       - targets:
         - https://api.linode.com/v4/object-storage/buckets/us-east-1/jarvis-mastodon
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9079
+
+  - job_name: "json_exporter_targets"
+    metrics_path: /probe
+    scrape_interval: 30s
+    params:
+      module: [linode_transfer]
+    static_configs:
+      - targets:
+        - https://api.linode.com/v4/account/transfer
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -117,7 +133,10 @@ json-config.yml:
 
 ```yml
 modules:
-  linode:
+  linode_bucket:
+    headers:
+      # https://cloud.linode.com/profile/tokens
+      Authorization: "Bearer XXXXXX"
     metrics:
     - name: json_linode_size
       path: "{.size}"
@@ -125,7 +144,6 @@ modules:
         bucket: "{.label}"
         zone: "{.cluster}"
         hostname: "{.hostname}"
-
     - name: json_linode_objects
       path: "{.objects}"
       labels:
@@ -133,9 +151,15 @@ modules:
         zone: "{.cluster}"
         hostname: "{.hostname}"
 
+  linode_transfer:
     headers:
       # https://cloud.linode.com/profile/tokens
       Authorization: "Bearer XXXXXX"
+    metrics:
+    - name: json_linode_transfer_used
+      path: "{.used}"
+    - name: json_linode_transfer_quota
+      path: "{.quota}"
 ```
 
 ---

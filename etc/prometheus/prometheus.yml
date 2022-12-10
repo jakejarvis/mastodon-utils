@@ -1,0 +1,80 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "node_exporter_metrics"
+    static_configs:
+      - targets: ["localhost:9100"]
+
+  - job_name: "redis_exporter_targets"
+    static_configs:
+      - targets: ["redis://localhost:6379"]
+    metrics_path: /scrape
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9121
+
+  - job_name: "redis_exporter_metrics"
+    static_configs:
+      - targets: ["localhost:9121"]
+
+  - job_name: "postgres_exporter_metrics"
+    static_configs:
+      - targets: ["localhost:9187"]
+
+  - job_name: "nginx_exporter_metrics"
+    static_configs:
+      - targets: ["localhost:9113"]
+
+  - job_name: "statsd_exporter_metrics"
+    static_configs:
+      - targets: ["localhost:9102"]
+
+  - job_name: "elasticsearch_exporter_metrics"
+    static_configs:
+      - targets: ["localhost:9114"]
+
+  - job_name: "json_exporter_metrics"
+    static_configs:
+      - targets: ["localhost:9079"]
+
+  - job_name: "json_exporter_targets"
+    metrics_path: /probe
+    scrape_interval: 30s
+    params:
+      module: [linode_bucket]
+    static_configs:
+      - targets:
+        - https://api.linode.com/v4/object-storage/buckets/us-east-1/jarvis-mastodon
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9079
+
+  - job_name: "json_exporter_targets"
+    metrics_path: /probe
+    scrape_interval: 30s
+    params:
+      module: [linode_transfer]
+    static_configs:
+      - targets:
+        - https://api.linode.com/v4/account/transfer
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9079

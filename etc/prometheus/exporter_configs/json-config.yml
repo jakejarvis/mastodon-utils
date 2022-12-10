@@ -1,0 +1,28 @@
+modules:
+  linode_bucket:
+    headers:
+      # https://cloud.linode.com/profile/tokens
+      Authorization: "Bearer XXXXXX"
+    metrics:
+    - name: json_linode_size
+      path: "{.size}"
+      labels:
+        bucket: "{.label}"
+        zone: "{.cluster}"
+        hostname: "{.hostname}"
+    - name: json_linode_objects
+      path: "{.objects}"
+      labels:
+        bucket: "{.label}"
+        zone: "{.cluster}"
+        hostname: "{.hostname}"
+
+  linode_transfer:
+    headers:
+      # https://cloud.linode.com/profile/tokens
+      Authorization: "Bearer XXXXXX"
+    metrics:
+    - name: json_linode_transfer_used
+      path: "{.used}"
+    - name: json_linode_transfer_quota
+      path: "{.quota}"
