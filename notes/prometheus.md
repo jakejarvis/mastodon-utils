@@ -36,7 +36,7 @@ systemctl status redis-exporter.service
 
 /home/mastodon/live/.env.production:
 
-```
+```sh
 STATSD_ADDR=localhost:9125
 ```
 
@@ -129,7 +129,7 @@ scrape_configs:
 
 ---
 
-json-config.yml:
+/etc/prometheus/json-config.yml:
 
 ```yml
 modules:

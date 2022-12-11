@@ -40,7 +40,7 @@ sudo -u mastodon "$RBENV_ROOT/bin/rbenv" global "$RUBY_VERSION"
 # run migrations:
 # https://docs.joinmastodon.org/admin/upgrading/
 echo "Running pre-deploy database migrations..."
-sudo -u mastodon SKIP_POST_DEPLOYMENT_MIGRATIONS=true RAILS_ENV=production "$RBENV_ROOT/shims/bundle" exec rails db:migrate
+sudo -u mastodon SKIP_POST_DEPLOYMENT_MIGRATIONS=true RAILS_ENV=production DB_PORT=5432 "$RBENV_ROOT/shims/bundle" exec rails db:migrate
 
 # restart mastodon
 echo "Restarting services (round 1/2)..."
@@ -50,7 +50,7 @@ sudo systemctl restart mastodon-web mastodon-sidekiq mastodon-streaming
 echo "Clearing cache..."
 sudo -u mastodon RAILS_ENV=production "$RBENV_ROOT/shims/ruby" "$APP_ROOT/bin/tootctl" cache clear
 echo "Running post-deploy database migrations..."
-sudo -u mastodon RAILS_ENV=production "$RBENV_ROOT/shims/bundle" exec rails db:migrate
+sudo -u mastodon RAILS_ENV=production DB_PORT=5432 "$RBENV_ROOT/shims/bundle" exec rails db:migrate
 
 # restart mastodon again
 echo "Restarting services (round 2/2)..."
