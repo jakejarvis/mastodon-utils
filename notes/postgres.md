@@ -19,6 +19,14 @@ echo "pgbouncer password (save this securely): $DB_PASSWORD"
 echo "CREATE USER pgbouncer WITH PASSWORD '$DB_PASSWORD' CREATEDB" | sudo -u postgres psql -f -
 ```
 
+#### Running database migrations
+
+Mastodon `db:migrate`s should be pointed directly at Postgres (default port: 5432), ***not through PgBouncer***, by overriding `DB_PORT` env variable.
+
+```bash
+RAILS_ENV=production DB_PORT=5432 bundle exec rails db:migrate
+```
+
 #### Config
 
 .env.production:
@@ -66,6 +74,10 @@ generate md5 hash of postgres passwords with `echo -n "pass" | md5sum`
 ```
 
 ## Connecting from TablePlus.app via Tailscale
+
+Connect directly to Postgres (default port: 5432), ***not via PgBouncer!***
+
+---
 
 /etc/postgresql/15/main/postgres.conf
 
