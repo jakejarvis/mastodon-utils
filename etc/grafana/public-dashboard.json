@@ -596,6 +596,13 @@
             "mode": "thresholds"
           },
           "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Status history",
+              "url": "https://status.pipe.fail/"
+            }
+          ],
           "mappings": [
             {
               "options": {
@@ -729,10 +736,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -1016,10 +1019,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -1221,10 +1220,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -1355,6 +1350,13 @@
             "mode": "thresholds"
           },
           "decimals": 0,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Sidekiq",
+              "url": "https://fediverse.jarv.is/sidekiq"
+            }
+          ],
           "mappings": [],
           "thresholds": {
             "mode": "percentage",
@@ -1772,10 +1774,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -1808,7 +1806,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by (worker)(rate(mastodon_sidekiq_worker_success_total{worker=~\"(ActivityPub..DeliveryWorker|ActivityPub..ProcessingWorker|ActivityPub..SynchronizeFeaturedCollectionWorker|ActivityPub..SynchronizeFeaturedTagsCollectionWorker|DistributionWorker|FeedInsertWorker|FetchReplyWorker|LinkCrawlWorker|LocalNotificationWorker|PollExpirationNotifyWorker|PushUpdateWorker|RedownloadMediaWorker|Scheduler..AccountsStatusesCleanupScheduler|Scheduler..IndexingScheduler|Scheduler..InstanceRefreshScheduler|Scheduler..ScheduledStatusesScheduler|Scheduler..SuspendedUserCleanupScheduler|Scheduler..Trends..RefreshScheduler|ThreadResolveWorker|VerifyAccountLinksWorker|Web..PushNotificationWorker)\"}[$__rate_interval]))",
+          "expr": "sum by (worker)(rate(mastodon_sidekiq_worker_success_total{worker=~\"(ActiveJob..QueueAdapters..SidekiqAdapter..JobWrapper|ActivityPub..DeliveryWorker|ActivityPub..DistributionWorker|ActivityPub..FetchRepliesWorker|ActivityPub..LowPriorityDeliveryWorker|ActivityPub..ProcessingWorker|ActivityPub..RawDistributionWorker|ActivityPub..StatusUpdateDistributionWorker|ActivityPub..SynchronizeFeaturedCollectionWorker|ActivityPub..SynchronizeFeaturedTagsCollectionWorker|ActivityPub..UpdateDistributionWorker|Admin..SuspensionWorker|BlockWorker|DeleteMuteWorker|DistributionWorker|DomainBlockWorker|DomainClearMediaWorker|FeedInsertWorker|FetchReplyWorker|LinkCrawlWorker|LocalNotificationWorker|MergeWorker|MuteWorker|PollExpirationNotifyWorker|PushConversationWorker|PushUpdateWorker|RedownloadAvatarWorker|RedownloadHeaderWorker|RedownloadMediaWorker|RefollowWorker|RemoteAccountRefreshWorker|RemovalWorker|Scheduler..AccountsStatusesCleanupScheduler|Scheduler..FollowRecommendationsScheduler|Scheduler..IndexingScheduler|Scheduler..InstanceRefreshScheduler|Scheduler..IpCleanupScheduler|Scheduler..PgheroScheduler|Scheduler..ScheduledStatusesScheduler|Scheduler..SuspendedUserCleanupScheduler|Scheduler..Trends..RefreshScheduler|Scheduler..Trends..ReviewNotificationsScheduler|Scheduler..UserCleanupScheduler|Scheduler..VacuumScheduler|ThreadResolveWorker|UnmergeWorker|VerifyAccountLinksWorker|Web..PushNotificationWorker)\"}[$__rate_interval]))",
           "legendFormat": "{{worker}} Success",
           "range": true,
           "refId": "A"
@@ -1819,7 +1817,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by (worker)(rate(mastodon_sidekiq_worker_failure_total{worker=~\"(ActivityPub..DeliveryWorker|ActivityPub..ProcessingWorker|ActivityPub..SynchronizeFeaturedCollectionWorker|ActivityPub..SynchronizeFeaturedTagsCollectionWorker|DistributionWorker|FeedInsertWorker|FetchReplyWorker|LinkCrawlWorker|LocalNotificationWorker|PollExpirationNotifyWorker|PushUpdateWorker|RedownloadMediaWorker|Scheduler..AccountsStatusesCleanupScheduler|Scheduler..IndexingScheduler|Scheduler..InstanceRefreshScheduler|Scheduler..ScheduledStatusesScheduler|Scheduler..SuspendedUserCleanupScheduler|Scheduler..Trends..RefreshScheduler|ThreadResolveWorker|VerifyAccountLinksWorker|Web..PushNotificationWorker)\"}[$__rate_interval]))",
+          "expr": "sum by (worker)(rate(mastodon_sidekiq_worker_failure_total{worker=~\"(ActiveJob..QueueAdapters..SidekiqAdapter..JobWrapper|ActivityPub..DeliveryWorker|ActivityPub..DistributionWorker|ActivityPub..FetchRepliesWorker|ActivityPub..LowPriorityDeliveryWorker|ActivityPub..ProcessingWorker|ActivityPub..RawDistributionWorker|ActivityPub..StatusUpdateDistributionWorker|ActivityPub..SynchronizeFeaturedCollectionWorker|ActivityPub..SynchronizeFeaturedTagsCollectionWorker|ActivityPub..UpdateDistributionWorker|Admin..SuspensionWorker|BlockWorker|DeleteMuteWorker|DistributionWorker|DomainBlockWorker|DomainClearMediaWorker|FeedInsertWorker|FetchReplyWorker|LinkCrawlWorker|LocalNotificationWorker|MergeWorker|MuteWorker|PollExpirationNotifyWorker|PushConversationWorker|PushUpdateWorker|RedownloadAvatarWorker|RedownloadHeaderWorker|RedownloadMediaWorker|RefollowWorker|RemoteAccountRefreshWorker|RemovalWorker|Scheduler..AccountsStatusesCleanupScheduler|Scheduler..FollowRecommendationsScheduler|Scheduler..IndexingScheduler|Scheduler..InstanceRefreshScheduler|Scheduler..IpCleanupScheduler|Scheduler..PgheroScheduler|Scheduler..ScheduledStatusesScheduler|Scheduler..SuspendedUserCleanupScheduler|Scheduler..Trends..RefreshScheduler|Scheduler..Trends..ReviewNotificationsScheduler|Scheduler..UserCleanupScheduler|Scheduler..VacuumScheduler|ThreadResolveWorker|UnmergeWorker|VerifyAccountLinksWorker|Web..PushNotificationWorker)\"}[$__rate_interval]))",
           "hide": false,
           "legendFormat": "{{worker}} Failure",
           "range": true,
@@ -1878,10 +1876,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -1915,7 +1909,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by (worker)(rate(mastodon_sidekiq_worker_processing_time_sum{worker=~\"(ActivityPub..DeliveryWorker|ActivityPub..ProcessingWorker|ActivityPub..SynchronizeFeaturedCollectionWorker|ActivityPub..SynchronizeFeaturedTagsCollectionWorker|DistributionWorker|FeedInsertWorker|FetchReplyWorker|LinkCrawlWorker|LocalNotificationWorker|PollExpirationNotifyWorker|PushUpdateWorker|RedownloadMediaWorker|Scheduler..AccountsStatusesCleanupScheduler|Scheduler..IndexingScheduler|Scheduler..InstanceRefreshScheduler|Scheduler..ScheduledStatusesScheduler|Scheduler..SuspendedUserCleanupScheduler|Scheduler..Trends..RefreshScheduler|ThreadResolveWorker|VerifyAccountLinksWorker|Web..PushNotificationWorker)\"}[$__rate_interval]))\n/ sum by (worker)(rate(mastodon_sidekiq_worker_processing_time_count{worker=~\"(ActivityPub..DeliveryWorker|ActivityPub..ProcessingWorker|ActivityPub..SynchronizeFeaturedCollectionWorker|ActivityPub..SynchronizeFeaturedTagsCollectionWorker|DistributionWorker|FeedInsertWorker|FetchReplyWorker|LinkCrawlWorker|LocalNotificationWorker|PollExpirationNotifyWorker|PushUpdateWorker|RedownloadMediaWorker|Scheduler..AccountsStatusesCleanupScheduler|Scheduler..IndexingScheduler|Scheduler..InstanceRefreshScheduler|Scheduler..ScheduledStatusesScheduler|Scheduler..SuspendedUserCleanupScheduler|Scheduler..Trends..RefreshScheduler|ThreadResolveWorker|VerifyAccountLinksWorker|Web..PushNotificationWorker)\"}[$__rate_interval]))\n",
+          "expr": "sum by (worker)(rate(mastodon_sidekiq_worker_processing_time_sum{worker=~\"(ActiveJob..QueueAdapters..SidekiqAdapter..JobWrapper|ActivityPub..DeliveryWorker|ActivityPub..DistributionWorker|ActivityPub..FetchRepliesWorker|ActivityPub..LowPriorityDeliveryWorker|ActivityPub..ProcessingWorker|ActivityPub..RawDistributionWorker|ActivityPub..StatusUpdateDistributionWorker|ActivityPub..SynchronizeFeaturedCollectionWorker|ActivityPub..SynchronizeFeaturedTagsCollectionWorker|ActivityPub..UpdateDistributionWorker|Admin..SuspensionWorker|BlockWorker|DeleteMuteWorker|DistributionWorker|DomainBlockWorker|DomainClearMediaWorker|FeedInsertWorker|FetchReplyWorker|LinkCrawlWorker|LocalNotificationWorker|MergeWorker|MuteWorker|PollExpirationNotifyWorker|PushConversationWorker|PushUpdateWorker|RedownloadAvatarWorker|RedownloadHeaderWorker|RedownloadMediaWorker|RefollowWorker|RemoteAccountRefreshWorker|RemovalWorker|Scheduler..AccountsStatusesCleanupScheduler|Scheduler..FollowRecommendationsScheduler|Scheduler..IndexingScheduler|Scheduler..InstanceRefreshScheduler|Scheduler..IpCleanupScheduler|Scheduler..PgheroScheduler|Scheduler..ScheduledStatusesScheduler|Scheduler..SuspendedUserCleanupScheduler|Scheduler..Trends..RefreshScheduler|Scheduler..Trends..ReviewNotificationsScheduler|Scheduler..UserCleanupScheduler|Scheduler..VacuumScheduler|ThreadResolveWorker|UnmergeWorker|VerifyAccountLinksWorker|Web..PushNotificationWorker)\"}[$__rate_interval]))\n/ sum by (worker)(rate(mastodon_sidekiq_worker_processing_time_count{worker=~\"(ActiveJob..QueueAdapters..SidekiqAdapter..JobWrapper|ActivityPub..DeliveryWorker|ActivityPub..DistributionWorker|ActivityPub..FetchRepliesWorker|ActivityPub..LowPriorityDeliveryWorker|ActivityPub..ProcessingWorker|ActivityPub..RawDistributionWorker|ActivityPub..StatusUpdateDistributionWorker|ActivityPub..SynchronizeFeaturedCollectionWorker|ActivityPub..SynchronizeFeaturedTagsCollectionWorker|ActivityPub..UpdateDistributionWorker|Admin..SuspensionWorker|BlockWorker|DeleteMuteWorker|DistributionWorker|DomainBlockWorker|DomainClearMediaWorker|FeedInsertWorker|FetchReplyWorker|LinkCrawlWorker|LocalNotificationWorker|MergeWorker|MuteWorker|PollExpirationNotifyWorker|PushConversationWorker|PushUpdateWorker|RedownloadAvatarWorker|RedownloadHeaderWorker|RedownloadMediaWorker|RefollowWorker|RemoteAccountRefreshWorker|RemovalWorker|Scheduler..AccountsStatusesCleanupScheduler|Scheduler..FollowRecommendationsScheduler|Scheduler..IndexingScheduler|Scheduler..InstanceRefreshScheduler|Scheduler..IpCleanupScheduler|Scheduler..PgheroScheduler|Scheduler..ScheduledStatusesScheduler|Scheduler..SuspendedUserCleanupScheduler|Scheduler..Trends..RefreshScheduler|Scheduler..Trends..ReviewNotificationsScheduler|Scheduler..UserCleanupScheduler|Scheduler..VacuumScheduler|ThreadResolveWorker|UnmergeWorker|VerifyAccountLinksWorker|Web..PushNotificationWorker)\"}[$__rate_interval]))\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -2124,10 +2118,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -2282,10 +2272,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -2318,13 +2304,14 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by (controller) (rate(mastodon_controller_duration_count{controller=~\"(AboutController|AccountsController|ActivityPub.CollectionsController|ActivityPub.InboxesController|ActivityPub.OutboxesController|ActivityPub.RepliesController|Admin.DashboardController|Admin.Settings.AboutController|Admin.Settings.BrandingController|Api.OEmbedController|Api.V1.Accounts.FeaturedTagsController|Api.V1.Accounts.FollowerAccountsController|Api.V1.Accounts.LookupController|Api.V1.Accounts.RelationshipsController|Api.V1.Accounts.SearchController|Api.V1.Accounts.StatusesController|Api.V1.AccountsController|Api.V1.Admin.DimensionsController|Api.V1.Admin.MeasuresController|Api.V1.Admin.RetentionController|Api.V1.Admin.Trends.TagsController|Api.V1.AnnouncementsController|Api.V1.ConversationsController|Api.V1.CustomEmojisController|Api.V1.DirectoriesController|Api.V1.FollowRequestsController|Api.V1.Instances.ExtendedDescriptionsController|Api.V1.InstancesController|Api.V1.ListsController|Api.V1.MarkersController|Api.V1.NotificationsController|Api.V1.Statuses.FavouritedByAccountsController|Api.V1.Statuses.FavouritesController|Api.V1.Statuses.PinsController|Api.V1.Statuses.RebloggedByAccountsController|Api.V1.Statuses.ReblogsController|Api.V1.StatusesController|Api.V1.TagsController|Api.V1.Timelines.HomeController|Api.V1.Timelines.PublicController|Api.V1.Timelines.TagController|Api.V1.Trends.TagsController|Api.V2.InstancesController|Api.V2.MediaController|Api.V2.SearchController|Api.V2.SuggestionsController|Api.Web.SettingsController|ApplicationController|AuthorizeInteractionsController|CustomCssController|FollowerAccountsController|FollowingAccountsController|HomeController|InstanceActorsController|ManifestsController|Settings.Preferences.AppearanceController|Settings.ProfilesController|StatusesController|TagsController|WellKnown.NodeInfoController|WellKnown.WebfingerController)\"}[$__rate_interval]))",
+          "expr": "sum by (controller) (rate(mastodon_controller_duration_count{controller=~\"(AboutController|AccountsController|ActivityPub.CollectionsController|ActivityPub.InboxesController|ActivityPub.OutboxesController|ActivityPub.RepliesController|Admin.AccountsController|Admin.AnnouncementsController|Admin.CustomEmojisController|Admin.DashboardController|Admin.DomainBlocksController|Admin.EmailDomainBlocksController|Admin.ExportDomainBlocksController|Admin.FollowRecommendationsController|Admin.InstancesController|Admin.InvitesController|Admin.RelaysController|Admin.ReportsController|Admin.RolesController|Admin.RulesController|Admin.Settings.AboutController|Admin.Settings.AppearanceController|Admin.Settings.BrandingController|Admin.Settings.ContentRetentionController|Admin.Settings.DiscoveryController|Admin.Settings.OtherController|Admin.Settings.RegistrationsController|Admin.Trends.StatusesController|Api.OEmbedController|Api.V1.Accounts.CredentialsController|Api.V1.Accounts.FeaturedTagsController|Api.V1.Accounts.FollowerAccountsController|Api.V1.Accounts.FollowingAccountsController|Api.V1.Accounts.IdentityProofsController|Api.V1.Accounts.ListsController|Api.V1.Accounts.LookupController|Api.V1.Accounts.RelationshipsController|Api.V1.Accounts.SearchController|Api.V1.Accounts.StatusesController|Api.V1.AccountsController|Api.V1.Admin.DimensionsController|Api.V1.Admin.MeasuresController|Api.V1.Admin.RetentionController|Api.V1.Admin.Trends.TagsController|Api.V1.AnnouncementsController|Api.V1.Apps.CredentialsController|Api.V1.BlocksController|Api.V1.BookmarksController|Api.V1.ConversationsController|Api.V1.CustomEmojisController|Api.V1.DirectoriesController|Api.V1.FavouritesController|Api.V1.FiltersController|Api.V1.FollowRequestsController|Api.V1.Instances.ActivityController|Api.V1.Instances.DomainBlocksController|Api.V1.Instances.ExtendedDescriptionsController|Api.V1.Instances.PeersController|Api.V1.Instances.PrivacyPoliciesController|Api.V1.Instances.RulesController|Api.V1.InstancesController|Api.V1.ListsController|Api.V1.MarkersController|Api.V1.MediaController|Api.V1.MutesController|Api.V1.NotificationsController|Api.V1.Polls.VotesController|Api.V1.PollsController|Api.V1.PreferencesController|Api.V1.Push.SubscriptionsController|Api.V1.Statuses.BookmarksController|Api.V1.Statuses.FavouritedByAccountsController|Api.V1.Statuses.FavouritesController|Api.V1.Statuses.PinsController|Api.V1.Statuses.RebloggedByAccountsController|Api.V1.Statuses.ReblogsController|Api.V1.Statuses.SourcesController|Api.V1.StatusesController|Api.V1.TagsController|Api.V1.Timelines.HomeController|Api.V1.Timelines.PublicController|Api.V1.Timelines.TagController|Api.V1.Trends.LinksController|Api.V1.Trends.StatusesController|Api.V1.Trends.TagsController|Api.V2.InstancesController|Api.V2.MediaController|Api.V2.SearchController|Api.V2.SuggestionsController|Api.Web.SettingsController|ApplicationController|Auth.ConfirmationsController|Auth.PasswordsController|Auth.RegistrationsController|Auth.SessionsController|AuthorizeInteractionsController|CustomCssController|FiltersController|FollowerAccountsController|FollowingAccountsController|HealthController|HomeController|InstanceActorsController|ManifestsController|MediaProxyController|Oauth.TokensController|Settings.FlavoursController|Settings.Preferences.AppearanceController|Settings.Preferences.NotificationsController|Settings.ProfilesController|StatusesController|TagsController|WellKnown.HostMetaController|WellKnown.NodeInfoController|WellKnown.WebfingerController)\"}[$__rate_interval]))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Puma Operations",
+      "transformations": [],
       "type": "timeseries"
     },
     {
@@ -2375,10 +2362,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -2412,7 +2395,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by (controller) (rate(mastodon_controller_duration_sum{controller=~\"(AboutController|AccountsController|ActivityPub.CollectionsController|ActivityPub.InboxesController|ActivityPub.OutboxesController|ActivityPub.RepliesController|Admin.DashboardController|Admin.Settings.AboutController|Admin.Settings.BrandingController|Api.OEmbedController|Api.V1.Accounts.FeaturedTagsController|Api.V1.Accounts.FollowerAccountsController|Api.V1.Accounts.LookupController|Api.V1.Accounts.RelationshipsController|Api.V1.Accounts.SearchController|Api.V1.Accounts.StatusesController|Api.V1.AccountsController|Api.V1.Admin.DimensionsController|Api.V1.Admin.MeasuresController|Api.V1.Admin.RetentionController|Api.V1.Admin.Trends.TagsController|Api.V1.AnnouncementsController|Api.V1.ConversationsController|Api.V1.CustomEmojisController|Api.V1.DirectoriesController|Api.V1.FollowRequestsController|Api.V1.Instances.ExtendedDescriptionsController|Api.V1.InstancesController|Api.V1.ListsController|Api.V1.MarkersController|Api.V1.NotificationsController|Api.V1.Statuses.FavouritedByAccountsController|Api.V1.Statuses.FavouritesController|Api.V1.Statuses.PinsController|Api.V1.Statuses.RebloggedByAccountsController|Api.V1.Statuses.ReblogsController|Api.V1.StatusesController|Api.V1.TagsController|Api.V1.Timelines.HomeController|Api.V1.Timelines.PublicController|Api.V1.Timelines.TagController|Api.V1.Trends.TagsController|Api.V2.InstancesController|Api.V2.MediaController|Api.V2.SearchController|Api.V2.SuggestionsController|Api.Web.SettingsController|ApplicationController|AuthorizeInteractionsController|CustomCssController|FollowerAccountsController|FollowingAccountsController|HomeController|InstanceActorsController|ManifestsController|Settings.Preferences.AppearanceController|Settings.ProfilesController|StatusesController|TagsController|WellKnown.NodeInfoController|WellKnown.WebfingerController)\"}[$__rate_interval])) /\nsum by (controller) (rate(mastodon_controller_duration_count{controller=~\"(AboutController|AccountsController|ActivityPub.CollectionsController|ActivityPub.InboxesController|ActivityPub.OutboxesController|ActivityPub.RepliesController|Admin.DashboardController|Admin.Settings.AboutController|Admin.Settings.BrandingController|Api.OEmbedController|Api.V1.Accounts.FeaturedTagsController|Api.V1.Accounts.FollowerAccountsController|Api.V1.Accounts.LookupController|Api.V1.Accounts.RelationshipsController|Api.V1.Accounts.SearchController|Api.V1.Accounts.StatusesController|Api.V1.AccountsController|Api.V1.Admin.DimensionsController|Api.V1.Admin.MeasuresController|Api.V1.Admin.RetentionController|Api.V1.Admin.Trends.TagsController|Api.V1.AnnouncementsController|Api.V1.ConversationsController|Api.V1.CustomEmojisController|Api.V1.DirectoriesController|Api.V1.FollowRequestsController|Api.V1.Instances.ExtendedDescriptionsController|Api.V1.InstancesController|Api.V1.ListsController|Api.V1.MarkersController|Api.V1.NotificationsController|Api.V1.Statuses.FavouritedByAccountsController|Api.V1.Statuses.FavouritesController|Api.V1.Statuses.PinsController|Api.V1.Statuses.RebloggedByAccountsController|Api.V1.Statuses.ReblogsController|Api.V1.StatusesController|Api.V1.TagsController|Api.V1.Timelines.HomeController|Api.V1.Timelines.PublicController|Api.V1.Timelines.TagController|Api.V1.Trends.TagsController|Api.V2.InstancesController|Api.V2.MediaController|Api.V2.SearchController|Api.V2.SuggestionsController|Api.Web.SettingsController|ApplicationController|AuthorizeInteractionsController|CustomCssController|FollowerAccountsController|FollowingAccountsController|HomeController|InstanceActorsController|ManifestsController|Settings.Preferences.AppearanceController|Settings.ProfilesController|StatusesController|TagsController|WellKnown.NodeInfoController|WellKnown.WebfingerController)\"}[$__rate_interval]))",
+          "expr": "sum by (controller) (rate(mastodon_controller_duration_sum{controller=~\"(AboutController|AccountsController|ActivityPub.CollectionsController|ActivityPub.InboxesController|ActivityPub.OutboxesController|ActivityPub.RepliesController|Admin.AccountsController|Admin.AnnouncementsController|Admin.CustomEmojisController|Admin.DashboardController|Admin.DomainBlocksController|Admin.EmailDomainBlocksController|Admin.ExportDomainBlocksController|Admin.FollowRecommendationsController|Admin.InstancesController|Admin.InvitesController|Admin.RelaysController|Admin.ReportsController|Admin.RolesController|Admin.RulesController|Admin.Settings.AboutController|Admin.Settings.AppearanceController|Admin.Settings.BrandingController|Admin.Settings.ContentRetentionController|Admin.Settings.DiscoveryController|Admin.Settings.OtherController|Admin.Settings.RegistrationsController|Admin.Trends.StatusesController|Api.OEmbedController|Api.V1.Accounts.CredentialsController|Api.V1.Accounts.FeaturedTagsController|Api.V1.Accounts.FollowerAccountsController|Api.V1.Accounts.FollowingAccountsController|Api.V1.Accounts.IdentityProofsController|Api.V1.Accounts.ListsController|Api.V1.Accounts.LookupController|Api.V1.Accounts.RelationshipsController|Api.V1.Accounts.SearchController|Api.V1.Accounts.StatusesController|Api.V1.AccountsController|Api.V1.Admin.DimensionsController|Api.V1.Admin.MeasuresController|Api.V1.Admin.RetentionController|Api.V1.Admin.Trends.TagsController|Api.V1.AnnouncementsController|Api.V1.Apps.CredentialsController|Api.V1.BlocksController|Api.V1.BookmarksController|Api.V1.ConversationsController|Api.V1.CustomEmojisController|Api.V1.DirectoriesController|Api.V1.FavouritesController|Api.V1.FiltersController|Api.V1.FollowRequestsController|Api.V1.Instances.ActivityController|Api.V1.Instances.DomainBlocksController|Api.V1.Instances.ExtendedDescriptionsController|Api.V1.Instances.PeersController|Api.V1.Instances.PrivacyPoliciesController|Api.V1.Instances.RulesController|Api.V1.InstancesController|Api.V1.ListsController|Api.V1.MarkersController|Api.V1.MediaController|Api.V1.MutesController|Api.V1.NotificationsController|Api.V1.Polls.VotesController|Api.V1.PollsController|Api.V1.PreferencesController|Api.V1.Push.SubscriptionsController|Api.V1.Statuses.BookmarksController|Api.V1.Statuses.FavouritedByAccountsController|Api.V1.Statuses.FavouritesController|Api.V1.Statuses.PinsController|Api.V1.Statuses.RebloggedByAccountsController|Api.V1.Statuses.ReblogsController|Api.V1.Statuses.SourcesController|Api.V1.StatusesController|Api.V1.TagsController|Api.V1.Timelines.HomeController|Api.V1.Timelines.PublicController|Api.V1.Timelines.TagController|Api.V1.Trends.LinksController|Api.V1.Trends.StatusesController|Api.V1.Trends.TagsController|Api.V2.InstancesController|Api.V2.MediaController|Api.V2.SearchController|Api.V2.SuggestionsController|Api.Web.SettingsController|ApplicationController|Auth.ConfirmationsController|Auth.PasswordsController|Auth.RegistrationsController|Auth.SessionsController|AuthorizeInteractionsController|CustomCssController|FiltersController|FollowerAccountsController|FollowingAccountsController|HealthController|HomeController|InstanceActorsController|ManifestsController|MediaProxyController|Oauth.TokensController|Settings.FlavoursController|Settings.Preferences.AppearanceController|Settings.Preferences.NotificationsController|Settings.ProfilesController|StatusesController|TagsController|WellKnown.HostMetaController|WellKnown.NodeInfoController|WellKnown.WebfingerController)\"}[$__rate_interval])) /\nsum by (controller) (rate(mastodon_controller_duration_count{controller=~\"(AboutController|AccountsController|ActivityPub.CollectionsController|ActivityPub.InboxesController|ActivityPub.OutboxesController|ActivityPub.RepliesController|Admin.AccountsController|Admin.AnnouncementsController|Admin.CustomEmojisController|Admin.DashboardController|Admin.DomainBlocksController|Admin.EmailDomainBlocksController|Admin.ExportDomainBlocksController|Admin.FollowRecommendationsController|Admin.InstancesController|Admin.InvitesController|Admin.RelaysController|Admin.ReportsController|Admin.RolesController|Admin.RulesController|Admin.Settings.AboutController|Admin.Settings.AppearanceController|Admin.Settings.BrandingController|Admin.Settings.ContentRetentionController|Admin.Settings.DiscoveryController|Admin.Settings.OtherController|Admin.Settings.RegistrationsController|Admin.Trends.StatusesController|Api.OEmbedController|Api.V1.Accounts.CredentialsController|Api.V1.Accounts.FeaturedTagsController|Api.V1.Accounts.FollowerAccountsController|Api.V1.Accounts.FollowingAccountsController|Api.V1.Accounts.IdentityProofsController|Api.V1.Accounts.ListsController|Api.V1.Accounts.LookupController|Api.V1.Accounts.RelationshipsController|Api.V1.Accounts.SearchController|Api.V1.Accounts.StatusesController|Api.V1.AccountsController|Api.V1.Admin.DimensionsController|Api.V1.Admin.MeasuresController|Api.V1.Admin.RetentionController|Api.V1.Admin.Trends.TagsController|Api.V1.AnnouncementsController|Api.V1.Apps.CredentialsController|Api.V1.BlocksController|Api.V1.BookmarksController|Api.V1.ConversationsController|Api.V1.CustomEmojisController|Api.V1.DirectoriesController|Api.V1.FavouritesController|Api.V1.FiltersController|Api.V1.FollowRequestsController|Api.V1.Instances.ActivityController|Api.V1.Instances.DomainBlocksController|Api.V1.Instances.ExtendedDescriptionsController|Api.V1.Instances.PeersController|Api.V1.Instances.PrivacyPoliciesController|Api.V1.Instances.RulesController|Api.V1.InstancesController|Api.V1.ListsController|Api.V1.MarkersController|Api.V1.MediaController|Api.V1.MutesController|Api.V1.NotificationsController|Api.V1.Polls.VotesController|Api.V1.PollsController|Api.V1.PreferencesController|Api.V1.Push.SubscriptionsController|Api.V1.Statuses.BookmarksController|Api.V1.Statuses.FavouritedByAccountsController|Api.V1.Statuses.FavouritesController|Api.V1.Statuses.PinsController|Api.V1.Statuses.RebloggedByAccountsController|Api.V1.Statuses.ReblogsController|Api.V1.Statuses.SourcesController|Api.V1.StatusesController|Api.V1.TagsController|Api.V1.Timelines.HomeController|Api.V1.Timelines.PublicController|Api.V1.Timelines.TagController|Api.V1.Trends.LinksController|Api.V1.Trends.StatusesController|Api.V1.Trends.TagsController|Api.V2.InstancesController|Api.V2.MediaController|Api.V2.SearchController|Api.V2.SuggestionsController|Api.Web.SettingsController|ApplicationController|Auth.ConfirmationsController|Auth.PasswordsController|Auth.RegistrationsController|Auth.SessionsController|AuthorizeInteractionsController|CustomCssController|FiltersController|FollowerAccountsController|FollowingAccountsController|HealthController|HomeController|InstanceActorsController|ManifestsController|MediaProxyController|Oauth.TokensController|Settings.FlavoursController|Settings.Preferences.AppearanceController|Settings.Preferences.NotificationsController|Settings.ProfilesController|StatusesController|TagsController|WellKnown.HostMetaController|WellKnown.NodeInfoController|WellKnown.WebfingerController)\"}[$__rate_interval]))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -2515,7 +2498,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "json_linode_size",
+          "expr": "json_linode_size{bucket=\"jarvis-mastodon\", zone=\"us-east-1\"}",
           "legendFormat": "{{hostname}}",
           "range": true,
           "refId": "A"
@@ -2607,7 +2590,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "json_linode_objects",
+          "expr": "json_linode_objects{bucket=\"jarvis-mastodon\", zone=\"us-east-1\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "{{hostname}}",
@@ -2679,10 +2662,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -2716,7 +2695,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "rate(mastodon_db_operation_count{table=~\"(account|accounts|announcements|blocks|bookmarks|conversation|conversations|custom|domain|favourites|featured|follows|instances|ip|lists|markers|media|mentions|mutes|notifications|oauth|pg|poll|polls|preview|relays|reports|rules|scheduled|session|settings|site|status|statuses|tag|tags|tombstones|unavailable|user|users|web)\",operation=~\"(delete|insert|select|update)\"}[$__rate_interval])",
+          "expr": "rate(mastodon_db_operation_count{table=~\"(account|accounts|admin|announcement|announcements|appeals|ar|backups|blocks|bookmarks|conversation|conversations|counties|custom|devices|domain|email|favourites|featured|follow|follows|imports|instances|invites|ip|list|lists|login|markers|media|mentions|mutes|notifications|oauth|pg|pghero|poll|polls|preview|relays|report|reports|rules|scheduled|schema|session|settings|site|status|statuses|tag|tags|tombstones|unavailable|user|users|web)\",operation=~\"(delete|insert|select|update)\"}[$__rate_interval])",
           "legendFormat": "{{table}}.{{operation}}",
           "range": true,
           "refId": "A"
@@ -2772,10 +2751,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -2809,7 +2784,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "rate(mastodon_db_operation_sum{table=~\"(account|accounts|announcements|blocks|bookmarks|conversation|conversations|custom|domain|favourites|featured|follows|instances|ip|lists|markers|media|mentions|mutes|notifications|oauth|pg|poll|polls|preview|relays|reports|rules|scheduled|session|settings|site|status|statuses|tag|tags|tombstones|unavailable|user|users|web)\",operation=~\"(delete|insert|select|update)\"}[$__rate_interval]) / \nrate(mastodon_db_operation_count{table=~\"(account|accounts|announcements|blocks|bookmarks|conversation|conversations|custom|domain|favourites|featured|follows|instances|ip|lists|markers|media|mentions|mutes|notifications|oauth|pg|poll|polls|preview|relays|reports|rules|scheduled|session|settings|site|status|statuses|tag|tags|tombstones|unavailable|user|users|web)\",operation=~\"(delete|insert|select|update)\"}[$__rate_interval])",
+          "expr": "rate(mastodon_db_operation_sum{table=~\"(account|accounts|admin|announcement|announcements|appeals|ar|backups|blocks|bookmarks|conversation|conversations|counties|custom|devices|domain|email|favourites|featured|follow|follows|imports|instances|invites|ip|list|lists|login|markers|media|mentions|mutes|notifications|oauth|pg|pghero|poll|polls|preview|relays|report|reports|rules|scheduled|schema|session|settings|site|status|statuses|tag|tags|tombstones|unavailable|user|users|web)\",operation=~\"(delete|insert|select|update)\"}[$__rate_interval]) / \nrate(mastodon_db_operation_count{table=~\"(account|accounts|admin|announcement|announcements|appeals|ar|backups|blocks|bookmarks|conversation|conversations|counties|custom|devices|domain|email|favourites|featured|follow|follows|imports|instances|invites|ip|list|lists|login|markers|media|mentions|mutes|notifications|oauth|pg|pghero|poll|polls|preview|relays|report|reports|rules|scheduled|schema|session|settings|site|status|statuses|tag|tags|tombstones|unavailable|user|users|web)\",operation=~\"(delete|insert|select|update)\"}[$__rate_interval])",
           "legendFormat": "{{table}}.{{operation}}",
           "range": true,
           "refId": "A"
@@ -2958,10 +2933,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -3296,7 +3267,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by (operation)(rate(mastodon_cache_duration_count{operation=~\"(delete|fetch_hit|generate|increment|read_hit|read_miss|read_multi|write)\"}[$__rate_interval]))",
+          "expr": "sum by (operation)(rate(mastodon_cache_duration_count{operation=~\"(delete|delete_matched|delete_multi|fetch_hit|generate|increment|read_hit|read_miss|read_multi|write)\"}[$__rate_interval]))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -3386,7 +3357,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by (operation)(rate(mastodon_cache_duration_sum{operation=~\"(delete|fetch_hit|generate|increment|read_hit|read_miss|read_multi|write)\"}[$__rate_interval])) / \nsum by (operation)(rate(mastodon_cache_duration_count{operation=~\"(delete|fetch_hit|generate|increment|read_hit|read_miss|read_multi|write)\"}[$__rate_interval]))",
+          "expr": "sum by (operation)(rate(mastodon_cache_duration_sum{operation=~\"(delete|delete_matched|delete_multi|fetch_hit|generate|increment|read_hit|read_miss|read_multi|write)\"}[$__rate_interval])) / \nsum by (operation)(rate(mastodon_cache_duration_count{operation=~\"(delete|delete_matched|delete_multi|fetch_hit|generate|increment|read_hit|read_miss|read_multi|write)\"}[$__rate_interval]))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -3415,6 +3386,6 @@
   "timezone": "America/New_York",
   "title": "Mastodon public",
   "uid": "IXDZT_dV9",
-  "version": 266,
+  "version": 285,
   "weekStart": "sunday"
 }
