@@ -7,6 +7,7 @@ Random opinionated helper scripts & front-end customizations for my [personal Ma
 The [wiki of this repo](https://github.com/jakejarvis/mastodon-scripts/wiki) and the [`/etc` folder](etc/) are simply my way of not forgetting how I did something, which I do quite a bit. Refer there for random notes on PgBouncer, Grafana, etc. but **DO NOT BLINDLY COPY & PASTE** anything there without doing your own research!
 
 - [Grafana & Prometheus](https://github.com/jakejarvis/mastodon-scripts/wiki/Prometheus-&-Grafana)
+- [ElasticSearch](https://github.com/jakejarvis/mastodon-scripts/wiki/ElasticSearch)
 - [PgBouncer](https://github.com/jakejarvis/mastodon-scripts/wiki/Postgres-&-PgBouncer)
 - [Brotli compression](https://github.com/jakejarvis/mastodon-scripts/wiki/Brotli-compression-for-nginx)
 
