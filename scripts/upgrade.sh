@@ -32,6 +32,10 @@ fi
 # pull & apply latest patches
 . "$SCRIPTS_ROOT/scripts/apply_patches.sh"
 
+# create blank custom.css (this overrides any CSS set in the admin panel, but if that's not being used, then
+# this quickly saves a request to the backend)
+sudo -u mastodon "$APP_ROOT/public/custom.css"
+
 # set new ruby version
 RUBY_VERSION="$(sudo -u mastodon cat $APP_ROOT/.ruby-version)"
 sudo -u mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc "$RBENV_ROOT/bin/rbenv" install "$RUBY_VERSION" || true
