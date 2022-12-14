@@ -6,7 +6,7 @@
 
 set -e
 
-. "$(dirname "$0")/toot_shim.sh"
+. "$(dirname "$0")/tootctl_shim.sh"
 
 tootctl media remove --days 7
 tootctl preview_cards remove --days 90
