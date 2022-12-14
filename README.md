@@ -39,6 +39,7 @@ systemctl restart mastodon-*
 
 - [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`robots.patch`](patches/robots.patch): Disallow search engines for all of Mastodon
+- [`increase-sidekiq-http-timeout.patch`](patches/increase-sidekiq-http-timeout.patch): Minor increase in time before Sidekiq decides a remove instance isn't available. **Use this one carefully!**
 - [`system-font.patch`](patches/system-font.patch): Use the system's default sans-serif font stack instead of Roboto
   - [Additional `glitch-soc` patch](patches/glitch/system-font.patch)
 - [`hide-contact-email.patch`](patches/hide-contact-email.patch): Hides the `mailto:` link on the About page
@@ -47,7 +48,10 @@ systemctl restart mastodon-*
   - [Additional `glitch-soc` patch](patches/glitch/hide-rules.patch)
 - [`hide-signup.patch`](patches/hide-signup.patch): Hide the "create account" button (for aesthetics, **not security!**)
   - [Additional `glitch-soc` patch](patches/glitch/hide-signup.patch)
-- [`glitch-soc` only] [`sidebar-logo.patch`](patches/glitch/sidebar-logo.patch): Restore Mastodon logo in logged-out sidebar
+- `glitch-soc` only:
+  - [`custom-glitch-defaults.patch`](patches/glitch/custom-glitch-defaults.patch): Sets default Glitch appearance settings for logged-out users
+  - [`remove-glitch-cruft.patch`](patches/glitch/remove-glitch-cruft.patch): Removes a bunch of junk no longer used by `glitch-soc`
+  - [`sidebar-logo.patch`](patches/glitch/sidebar-logo.patch): Restore Mastodon logo in logged-out sidebar
 
 ## License
 

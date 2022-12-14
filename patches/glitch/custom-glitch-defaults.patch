@@ -1,0 +1,53 @@
+diff --git a/app/javascript/flavours/glitch/reducers/local_settings.js b/app/javascript/flavours/glitch/reducers/local_settings.js
+index 81ab1cb0d..8aa07d4c3 100644
+--- a/app/javascript/flavours/glitch/reducers/local_settings.js
++++ b/app/javascript/flavours/glitch/reducers/local_settings.js
+@@ -11,7 +11,7 @@ const initialState = ImmutableMap({
+   navbar_under : false,
+   side_arm  : 'none',
+   side_arm_reply_mode : 'keep',
+-  show_reply_count : false,
++  show_reply_count : true,
+   always_show_spoilers_field: false,
+   confirm_missing_media_description: false,
+   confirm_boost_missing_media_description: false,
+@@ -19,10 +19,10 @@ const initialState = ImmutableMap({
+   prepend_cw_re: true,
+   preselect_on_reply: true,
+   inline_preview_cards: true,
+-  hicolor_privacy_icons: false,
++  hicolor_privacy_icons: true,
+   show_content_type_choice: false,
+   tag_misleading_links: true,
+-  rewrite_mentions: 'no',
++  rewrite_mentions: 'acct',
+   content_warnings : ImmutableMap({
+     filter       : null,
+     media_outside: false,
+@@ -33,7 +33,7 @@ const initialState = ImmutableMap({
+     auto        : ImmutableMap({
+       all              : false,
+       notifications    : true,
+-      lengthy          : true,
++      lengthy          : false,
+       reblogs          : false,
+       replies          : false,
+       media            : false,
+@@ -45,7 +45,7 @@ const initialState = ImmutableMap({
+     show_action_bar : true,
+   }),
+   media     : ImmutableMap({
+-    letterbox        : true,
++    letterbox        : false,
+     fullwidth        : true,
+     reveal_behind_cw : false,
+     pop_in_player    : true,
+@@ -56,7 +56,7 @@ const initialState = ImmutableMap({
+     tab_badge     : true,
+   }),
+   status_icons : ImmutableMap({
+-    language:   true,
++    language:   false,
+     reply:      true,
+     local_only: true,
+     media:      true,

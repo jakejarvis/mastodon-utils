@@ -21,11 +21,11 @@ fi
 
 # apply custom patches
 cd "$APP_ROOT"
-sudo -u mastodon git apply --allow-binary-replacement "$SCRIPTS_ROOT"/patches/*.patch
+sudo -u mastodon git apply --reject --allow-binary-replacement "$SCRIPTS_ROOT"/patches/*.patch
 if [ -d "$APP_ROOT/app/javascript/flavours/glitch" ];
 then
   # apply additional glitch-only patches:
-  sudo -u mastodon git apply --allow-binary-replacement "$SCRIPTS_ROOT"/patches/glitch/*.patch
+  sudo -u mastodon git apply --reject --allow-binary-replacement "$SCRIPTS_ROOT"/patches/glitch/*.patch
 fi
 
 # update dependencies

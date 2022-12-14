@@ -1,0 +1,13 @@
+diff --git a/app/lib/request.rb b/app/lib/request.rb
+index 96d934a8f..63acfd5c6 100644
+--- a/app/lib/request.rb
++++ b/app/lib/request.rb
+@@ -20,7 +20,7 @@ class Request
+   # We enforce a 5s timeout on DNS resolving, 5s timeout on socket opening
+   # and 5s timeout on the TLS handshake, meaning the worst case should take
+   # about 15s in total
+-  TIMEOUT = { connect: 5, read: 10, write: 10 }.freeze
++  TIMEOUT = { connect: 10, read: 15, write: 15 }.freeze
+ 
+   include RoutingHelper
+ 
