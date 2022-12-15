@@ -6,7 +6,7 @@ set -euo pipefail
 # default paths
 MASTODON_ROOT=/home/mastodon
 APP_ROOT="$MASTODON_ROOT/live"
-SCRIPTS_ROOT="$MASTODON_ROOT/scripts"
+UTILS_ROOT="$MASTODON_ROOT/utils"
 RBENV_ROOT="$MASTODON_ROOT/.rbenv"
 
 # check for existing installation
@@ -30,7 +30,7 @@ else
 fi
 
 # pull & apply latest patches
-. "$SCRIPTS_ROOT/scripts/apply_patches.sh"
+. "$UTILS_ROOT/scripts/apply_patches.sh"
 
 # create blank custom.css (this overrides any CSS set in the admin panel, but if that's not being used, then
 # this quickly saves a request to the backend)

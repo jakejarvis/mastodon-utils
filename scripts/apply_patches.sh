@@ -6,26 +6,26 @@ set -euo pipefail
 # default paths
 MASTODON_ROOT=/home/mastodon
 APP_ROOT="$MASTODON_ROOT/live"
-SCRIPTS_ROOT="$MASTODON_ROOT/scripts"
+UTILS_ROOT="$MASTODON_ROOT/utils"
 RBENV_ROOT="$MASTODON_ROOT/.rbenv"
 
 # clone this repo if it doesn't exist in the proper location
-if [ ! -d "$SCRIPTS_ROOT" ]
+if [ ! -d "$UTILS_ROOT" ]
 then
-  sudo -u mastodon git clone https://github.com/jakejarvis/mastodon-scripts.git "$SCRIPTS_ROOT"
+  sudo -u mastodon git clone https://github.com/jakejarvis/mastodon-utils.git "$UTILS_ROOT"
 
   # fix permissions
-  sudo chown -R mastodon:mastodon "$SCRIPTS_ROOT"
-  sudo git config --global --add safe.directory "$SCRIPTS_ROOT"
+  sudo chown -R mastodon:mastodon "$UTILS_ROOT"
+  sudo git config --global --add safe.directory "$UTILS_ROOT"
 fi
 
 # apply custom patches
 cd "$APP_ROOT"
-sudo -u mastodon git apply --reject --allow-binary-replacement "$SCRIPTS_ROOT"/patches/*.patch
+sudo -u mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/*.patch
 if [ -d "$APP_ROOT/app/javascript/flavours/glitch" ];
 then
   # apply additional glitch-only patches:
-  sudo -u mastodon git apply --reject --allow-binary-replacement "$SCRIPTS_ROOT"/patches/glitch/*.patch
+  sudo -u mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/glitch/*.patch
 fi
 
 # update dependencies

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 MASTODON_ROOT=/home/mastodon
 APP_ROOT="$MASTODON_ROOT/live"
 RBENV_ROOT="$MASTODON_ROOT/.rbenv"
