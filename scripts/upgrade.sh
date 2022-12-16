@@ -34,7 +34,7 @@ fi
 
 # create blank custom.css (this overrides any CSS set in the admin panel, but if that's not being used, then
 # this quickly saves a request to the backend)
-sudo -u mastodon "$APP_ROOT/public/custom.css"
+sudo -u mastodon touch "$APP_ROOT/public/custom.css"
 
 # set new ruby version
 RUBY_VERSION="$(sudo -u mastodon cat $APP_ROOT/.ruby-version)"
