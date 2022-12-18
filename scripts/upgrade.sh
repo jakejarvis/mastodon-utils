@@ -3,8 +3,18 @@
 # exit when any step fails
 set -euo pipefail
 
+# :)
+MY_NAME_IS_JAKE_JARVIS="false"
+
+# can't say you weren't warned
+if [ "$MY_NAME_IS_JAKE_JARVIS" != "pinky promise" ]; then
+  echo "🚨 LISTEN UP!!!! YOU PROBABLY WANT THIS SCRIPT INSTEAD:"
+  echo "https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh"
+  exit 69
+fi
+
 # initialize path
-source "$(dirname "$(realpath "$0")")"/../init.sh
+. "$(dirname "$(realpath "$0")")"/../init.sh
 
 # pull latest mastodon source
 cd "$APP_ROOT"
@@ -20,17 +30,17 @@ else
   as_mastodon git checkout "$(as_mastodon git tag -l | grep -v 'rc[0-9]*$' | sort -V | tail -n 1)"
 fi
 
-# pull & apply latest patches
-. "$UTILS_ROOT/scripts/apply_patches.sh"
-
-# create blank custom.css (this overrides any CSS set in the admin panel, but if that's not being used, then
-# this quickly saves a request to the backend)
-as_mastodon touch "$APP_ROOT/public/custom.css"
-
 # set new ruby version
 RUBY_VERSION="$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
-as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install "$RUBY_VERSION"
+as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing "$RUBY_VERSION"
 as_mastodon rbenv global "$RUBY_VERSION"
+
+# update dependencies
+as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
+as_mastodon yarn install --pure-lockfile --network-timeout 100000
+
+# pull & apply latest patches
+. "$UTILS_ROOT/scripts/apply_patches.sh"
 
 # run migrations:
 # https://docs.joinmastodon.org/admin/upgrading/

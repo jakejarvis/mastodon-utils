@@ -8,7 +8,7 @@
 set -euo pipefail
 
 # initialize path
-source "$(dirname "$(realpath "$0")")"/../init.sh
+. "$(dirname "$(realpath "$0")")"/../init.sh
 
 if [ "$(systemctl is-active mastodon-web.service)" = "active" ]; then
   echo "⚠️  Mastodon is currently running."
@@ -34,10 +34,10 @@ echo "Backing up Redis..."
 sudo cp /var/lib/redis/dump.rdb "$TEMP_DIR/redis.rdb"
 
 echo "Backing up secrets..."
-sudo cp "$MASTODON_ROOT/live/.env.production" "$TEMP_DIR/env.production"
+sudo cp "$APP_ROOT/.env.production" "$TEMP_DIR/env.production"
 
 echo "Compressing..."
-ARCHIVE_DEST="$BACKUPS_ROOT/$(date "+%Y.%m.%d-%H.%M.%S").tar.gz"
+ARCHIVE_DEST="$BACKUPS_ROOT/mastodon-$(date "+%Y.%m.%d-%H.%M.%S").tar.gz"
 sudo tar --owner=0 --group=0 -czvf "$ARCHIVE_DEST" -C "$TEMP_DIR" .
 sudo chown mastodon:mastodon "$ARCHIVE_DEST"
 

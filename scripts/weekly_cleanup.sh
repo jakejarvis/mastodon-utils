@@ -8,7 +8,7 @@
 set -euo pipefail
 
 # initialize path
-source "$(dirname "$(realpath "$0")")"/../init.sh
+. "$(dirname "$(realpath "$0")")"/../init.sh
 
 if [ ! -d "$LOGS_ROOT" ]; then
   as_mastodon mkdir -p "$LOGS_ROOT"

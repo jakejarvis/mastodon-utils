@@ -30,7 +30,7 @@ fi
 
 # ---
 
-# run a given command as the 'mastodon' user; e.g. `as_mastodon whoami`
+# run a given command as the 'mastodon' user (`as_mastodon whoami`)
 as_mastodon() {
   # don't do unnecessary sudo'ing if we're already mastodon
   if [ "$(whoami)" != "mastodon" ]; then
@@ -40,7 +40,7 @@ as_mastodon() {
   fi
 }
 
-# run /home/mastodon/live/bin/tootctl as 'mastodon' in '/home/mastodon/live'; e.g. `tootctl version`
+# run 'bin/tootctl' as 'mastodon' in '/home/mastodon/live' from anywhere (`tootctl version`)
 tootctl() {
   ( cd "$APP_ROOT" && as_mastodon RAILS_ENV=production ruby "$APP_ROOT/bin/tootctl" "$@" )
 }

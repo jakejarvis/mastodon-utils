@@ -4,7 +4,7 @@
 set -euo pipefail
 
 # initialize path
-source "$(dirname "$(realpath "$0")")"/../init.sh
+. "$(dirname "$(realpath "$0")")"/../init.sh
 
 # apply custom patches
 cd "$APP_ROOT"
@@ -14,15 +14,10 @@ if [ -d "$APP_ROOT/app/javascript/flavours/glitch" ]; then
   as_mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/glitch/*.patch
 fi
 
-# update dependencies
-echo "Updating deps..."
-as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
-as_mastodon yarn install --pure-lockfile --network-timeout 100000
-
 # compile new assets
 echo "Compiling new assets..."
 as_mastodon RAILS_ENV=production bundle exec rails assets:precompile
 
-# restart frontend
-echo "Restarting mastodon-web..."
-sudo systemctl restart mastodon-web
+# optional: create blank custom.css (this overrides any CSS set in the admin panel, but if that's not being used, then
+# this is an easy way to save a request to the backend)
+as_mastodon touch "$APP_ROOT/public/custom.css"
