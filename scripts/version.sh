@@ -1,7 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
-set -e
+# exit when any step fails
+set -euo pipefail
 
-. "$(dirname "$0")/tootctl_shim.sh"
+# initialize path
+source "$(dirname "$(realpath "$0")")"/../init.sh
 
-tootctl version
+echo "* rbenv version: $(rbenv --version)"
+echo "* Ruby version: $(ruby --version)"
+echo "* Mastodon version: $(tootctl version)"

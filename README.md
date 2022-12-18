@@ -15,7 +15,7 @@ The [wiki of this repo](https://github.com/jakejarvis/mastodon-utils/wiki) and t
 
 ***AGAIN, DEFINITELY DO NOT JUST RUN THIS IF YOU'RE NOT ME!!! 😊***
 
-This sets up the bare minimum customizations **after** Mastodon is installed:
+This sets up the bare minimum customizations ***after*** Mastodon is installed:
 
 ```sh
 git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils && cd /home/mastodon/utils
@@ -23,19 +23,42 @@ git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils 
 # setup nginx using conf files from this repo:
 ./scripts/setup_nginx.sh
 
-# apply vanilla (and glitch-soc) patches from this repo:
-./scripts/apply_patches.sh
+# back up Postgres, Redis, and secrets:
+./scripts/backup.sh
+
+# pull latest Mastodon (vanilla or glitch-soc) and apply patches from this repo:
+./scripts/upgrade.sh
 
 # cherry-pick everything else below...
 ```
+
+## Scripts
+
+- [`init.sh`](init.sh): A small helper that runs at the very beginning of each script below to initialize `rbenv` and set consistent environment variables.
+  - **Optional:** To make your life easier, you can also source this script from the `.bashrc` of the `mastodon` user and/or whichever user you regularly SSH in as:
+
+```sh
+if [ -f /home/mastodon/utils/init.sh ]; then
+  . /home/mastodon/utils/init.sh
+fi
+```
+
+- [`apply_patches.sh`](scripts/apply_patches.sh): Dangerously applies ***every patch*** listed below, and automatically detects if `glitch-soc` patches should also be applied
+- [`backup.sh`](scripts/backup.sh): Backs up Postgres, Redis, and `.env.production` secrets to a `.tar.gz` file in `/home/mastodon/backups` — useful for a [periodic cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cron-jobs#backups)
+- [`setup_nginx.sh`](scripts/setup_nginx.sh): Sets up symlinks from `/etc/nginx` to nginx confs in this repo
+- [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and re-applies patches listed below
+- [`version.sh`](scripts/version.sh): Tests `init.sh` by printing Mastodon, Ruby, and rbenv versions.
+- [`weekly_cleanup.sh`](scripts/weekly_cleanup.sh): Runs Mastodon's built-in [cleanup commands](https://docs.joinmastodon.org/admin/setup/#cleanup), designed for a [weekly cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cron-jobs#media-cleanup)
+  - Keeps 7 days of media (in object storage)
+  - Keeps 90 days of generated preview cards
 
 ## Patches
 
 #### Vanilla and `glitch-soc`:
 
-- [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`robots.patch`](patches/robots.patch): Disallow search engines for all of Mastodon
 - [`increase-sidekiq-timeout.patch`](patches/increase-sidekiq-timeout.patch): Small bump in Sidekiq's timeout before it decides a remote instance isn't available. **Use this one very carefully!**
+- [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`system-font.patch`](patches/system-font.patch): Use the system's default sans-serif font stack instead of Roboto
   - [`glitch/system-font.patch`](patches/glitch/system-font.patch)
 - [`hide-contact-email.patch`](patches/hide-contact-email.patch): Hides the `mailto:` link on the About page
@@ -49,20 +72,6 @@ git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils 
   - [`custom-glitch-defaults.patch`](patches/glitch/custom-glitch-defaults.patch): Sets default Glitch appearance settings for logged-out users
   - [`remove-glitch-cruft.patch`](patches/glitch/remove-glitch-cruft.patch): Removes a bunch of junk no longer used by `glitch-soc`
   - [`sidebar-logo.patch`](patches/glitch/sidebar-logo.patch): Restore Mastodon logo in logged-out sidebar
-
-## Scripts
-
-- [`apply_patches.sh`](scripts/apply_patches.sh): Dangerously applies ***every patch*** listed above, and automatically detects if `glitch-soc` patches should also be applied
-- [`backup.sh`](scripts/backup.sh): Backs up Postgres, Redis, and `.env.production` secrets to a `.tar.gz` file in `/home/mastodon/backups` — useful for a periodic cronjob
-- [`setup_nginx.sh`](scripts/setup_nginx.sh): Sets up symlinks from `/etc/nginx` to nginx confs in this repo
-- [`tootctl_shim.sh`](scripts/tootctl_shim.sh): Small shell shim to run `tootctl` in `/home/mastodon/live` as the `mastodon` user by anyone & from anywhere
-  - Add this line to the `.bash_profile` of the user you normally login as:
-    - `. /home/mastodon/utils/scripts/tootctl_shim.sh`
-- [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and re-applies patches listed above
-- [`version.sh`](scripts/version.sh): Tests `tootctl_shim.sh` by printing Mastodon version (`tootctl version`)
-- [`weekly_cleanup.sh`](scripts/weekly_cleanup.sh): Runs Mastodon's built-in [cleanup commands](https://docs.joinmastodon.org/admin/setup/#cleanup), designed for a [weekly cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cleanup-tasks)
-  - Keeps 7 days of media (in object storage)
-  - Keeps 90 days of generated preview cards
 
 ## License
 

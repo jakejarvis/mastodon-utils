@@ -1,31 +1,34 @@
 #!/bin/bash
 
+# cronjob ran once per week at 3 AM on Monday; see https://crontab.guru/#0_3_*_*_1
+# syntax for crontab -e:
+#   0 3 * * 1  bash -c "/home/mastodon/utils/scripts/backup.sh >> /home/mastodon/logs/cron.log 2>&1"
+
 # exit when any step fails
 set -euo pipefail
 
-# default paths
-MASTODON_ROOT=/home/mastodon
-APP_ROOT="$MASTODON_ROOT/live"
-BACKUPS_ROOT="$MASTODON_ROOT/backups"
+# initialize path
+source "$(dirname "$(realpath "$0")")"/../init.sh
 
-if [ "$(systemctl is-active mastodon-web.service)" = "active" ]
-then
+if [ "$(systemctl is-active mastodon-web.service)" = "active" ]; then
   echo "⚠️  Mastodon is currently running."
   echo "We'll start the backup anyways, but if it's a critical one, stop all Mastodon"
   echo "services first with 'systemctl stop mastodon-*' and run this again."
   echo ""
 fi
 
-if [ ! -d "$BACKUPS_ROOT" ]
-then
-  sudo mkdir -p "$BACKUPS_ROOT"
-  sudo chown -R mastodon:mastodon "$BACKUPS_ROOT"
+if [ ! -d "$BACKUPS_ROOT" ]; then
+  as_mastodon mkdir -p "$BACKUPS_ROOT"
 fi
 
-TEMP_DIR=$(sudo -u mastodon mktemp -d)
+if [ ! -d "$LOGS_ROOT" ]; then
+  as_mastodon mkdir -p "$LOGS_ROOT"
+fi
+
+TEMP_DIR=$(as_mastodon mktemp -d)
 
 echo "Backing up Postgres..."
-sudo -u mastodon pg_dump -Fc mastodon_production -f "$TEMP_DIR/postgres.dump"
+as_mastodon pg_dump -Fc mastodon_production -f "$TEMP_DIR/postgres.dump"
 
 echo "Backing up Redis..."
 sudo cp /var/lib/redis/dump.rdb "$TEMP_DIR/redis.rdb"

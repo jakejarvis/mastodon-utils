@@ -4,20 +4,8 @@
 # exit when any step fails
 set -euo pipefail
 
-# default paths
-MASTODON_ROOT=/home/mastodon
-APP_ROOT="$MASTODON_ROOT/live"
-UTILS_ROOT="$MASTODON_ROOT/utils"
-
-# clone this repo if it doesn't exist in the proper location
-if [ ! -d "$UTILS_ROOT" ]
-then
-  sudo -u mastodon git clone https://github.com/jakejarvis/mastodon-utils.git "$UTILS_ROOT"
-
-  # fix permissions
-  sudo chown -R mastodon:mastodon "$UTILS_ROOT"
-  sudo git config --global --add safe.directory "$UTILS_ROOT"
-fi
+# initialize path
+source "$(dirname "$(realpath "$0")")"/../init.sh
 
 # setup nginx config
 sudo rm -rf /etc/nginx/sites-available
