@@ -7,24 +7,32 @@ export APP_ROOT="$MASTODON_ROOT/live"         # actual Mastodon files
 export BACKUPS_ROOT="$MASTODON_ROOT/backups"  # backups destination
 export LOGS_ROOT="$MASTODON_ROOT/logs"        # logs destintation
 export RBENV_ROOT="$MASTODON_ROOT/.rbenv"     # rbenv (w/ ruby-build plugin) directory
+export NVM_DIR="$MASTODON_ROOT/.nvm"          # nvm directory
 
 # ---
 
-# initialize rbenv manually
-if [ -d "$RBENV_ROOT" ]; then
+# initialize rbenv
+if [ -s "$RBENV_ROOT/bin/rbenv" ]; then
   eval "$($RBENV_ROOT/bin/rbenv init -)"
 else
-  echo "⚠️ Didn't find rbenv at '$MASTODON_ROOT/.rbenv', double check the paths set in utils/init.sh..."
+  echo "⚠️ Couldn't find rbenv in '$RBENV_ROOT', double check the paths set in '$UTILS_ROOT/init.sh'..."
+fi
+
+# initialize nvm
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  . "$NVM_DIR/nvm.sh"
+else
+  echo "⚠️ Couldn't find nvm.sh in '$NVM_DIR', double check the paths set in '$UTILS_ROOT/init.sh'..."
 fi
 
 # check for Mastodon in set location
 if [ ! -d "$APP_ROOT" ]; then
-  echo "⚠️ Didn't find Mastodon at '$APP_ROOT', double check the paths set in utils/init.sh..."
+  echo "⚠️ Couldn't find Mastodon at '$APP_ROOT', double check the paths set in '$UTILS_ROOT/init.sh'..."
 fi
 
 # clone this repo if it doesn't exist in the proper location
 # if [ ! -d "$UTILS_ROOT" ]; then
-#   echo "⚠️ Can't find mastodon-utils in '$UTILS_DIR', cloning it for you..."
+#   echo "⚠️ Couldn't find mastodon-utils at '$UTILS_ROOT', cloning it for you..."
 #   sudo -u mastodon git clone https://github.com/jakejarvis/mastodon-utils.git "$UTILS_ROOT"
 # fi
 

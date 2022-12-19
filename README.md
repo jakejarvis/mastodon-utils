@@ -56,7 +56,7 @@ fi
 
 **The following scripts are highly opinionated, catastrophically destructive, and very specific to me.** Check them out line-by-line instead of running them.
 
-- [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu 20.04 and installs Mastodon ***with all of the quirks from this repo.*** [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
+- [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu 20.04 and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_ROOT` and other paths in [`init.sh`](init.sh) first if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
 - [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and ***re-applies every patch*** listed below. [Get the far less dangerous version of `upgrade.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh)
 - [`apply_patches.sh`](scripts/apply_patches.sh): Apply every patch below on top of the currently installed version of Mastodon.
 

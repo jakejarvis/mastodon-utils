@@ -35,6 +35,9 @@ RUBY_VERSION="$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
 as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing "$RUBY_VERSION"
 as_mastodon rbenv global "$RUBY_VERSION"
 
+# set new node version
+as_mastodon bash -c "\. "$NVM_DIR/nvm.sh"; nvm install; nvm use; npm install --global yarn"
+
 # update dependencies
 as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
 as_mastodon yarn install --pure-lockfile --network-timeout 100000

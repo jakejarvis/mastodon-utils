@@ -52,10 +52,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
   lsb-release \
   ca-certificates
 
-# add nodesource apt repository
-curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/nodesource-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nodesource-archive-keyring.gpg] https://deb.nodesource.com/node_16.x $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/nodesource.list >/dev/null
-
 # add official postgresql apt repository
 curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /usr/share/keyrings/postgresql-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list >/dev/null
@@ -78,7 +74,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
   libxml2-dev \
   libxslt1-dev \
   imagemagick \
-  nodejs \
   redis-server \
   redis-tools \
   postgresql \
@@ -107,32 +102,37 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
   python3-venv \
   libaugeas0
 
-# setup yarn
-sudo npm install --global yarn
-sudo corepack enable
-
 # install rbenv & ruby-build
+# https://github.com/rbenv/rbenv#basic-git-checkout
+# https://github.com/rbenv/ruby-build#clone-as-rbenv-plugin-using-git
 as_mastodon git clone https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
 as_mastodon git clone https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
 eval "$("$RBENV_ROOT"/bin/rbenv init -)"
 
+# install nvm
+# https://github.com/nvm-sh/nvm#manual-install
+as_mastodon git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR" && cd "$NVM_DIR"
+as_mastodon git checkout "$(as_mastodon git describe --abbrev=0 --tags --match "v[0-9]*" "$(as_mastodon git rev-list --tags --max-count=1)")"
+. "$NVM_DIR/nvm.sh"
+
 # clone vanilla Mastodon & checkout latest version:
 as_mastodon git clone https://github.com/mastodon/mastodon.git "$APP_ROOT" && cd "$APP_ROOT"
-as_mastodon git checkout "$(as_mastodon git tag -l | grep -v 'rc[0-9]*$' | sort -V | tail -n 1)"
+as_mastodon git checkout "$(as_mastodon git describe --abbrev=0 --tags --match "v[0-9]*" "$(as_mastodon git rev-list --tags --max-count=1)")"
 # clone glitch-soc & checkout latest commit:
 # as_mastodon git clone https://github.com/glitch-soc/mastodon.git "$APP_ROOT" && cd "$APP_ROOT"
 
 # install ruby
-RUBY_VERSION="$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
-as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing "$RUBY_VERSION"
-as_mastodon rbenv global "$RUBY_VERSION"
+as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing
+as_mastodon rbenv global "$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
+
+# install node & yarn
+as_mastodon bash -c "\. "$NVM_DIR/nvm.sh"; nvm install; nvm use; npm install --global yarn"
 
 # install npm and gem dependencies
 as_mastodon gem install bundler --no-document
 as_mastodon bundle config deployment "true"
 as_mastodon bundle config without "development test"
 as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
-as_mastodon yarn set version classic
 as_mastodon yarn install --pure-lockfile --network-timeout 100000
 
 # set up database w/ random alphanumeric password
@@ -224,25 +224,26 @@ sudo certbot certonly \
   --email "$MASTODON_ADMIN_EMAIL" \
   --standalone
 
-# configure nginx: sets up symlinks from `/etc/nginx` to confs in this repo
-sudo sed -i "$UTILS_ROOT/etc/nginx/sites-available/mastodon.conf" -e "s/fediverse.jarv.is/$MASTODON_DOMAIN/g"
-sudo rm -rf /etc/nginx/sites-available
-sudo rm -rf /etc/nginx/sites-enabled/*
+# configure nginx: copies conf files from this repo to /etc/nginx
 sudo mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
-sudo ln -sf "$UTILS_ROOT/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
-sudo ln -sf "$UTILS_ROOT/etc/nginx/modules" /usr/lib/nginx/modules
-sudo ln -sf "$UTILS_ROOT/etc/nginx/sites-available" /etc/nginx/sites-available
+sudo cp "$UTILS_ROOT"/etc/nginx/nginx.conf /etc/nginx/nginx.conf
+sudo cp -f "$UTILS_ROOT"/etc/nginx/modules/* /usr/lib/nginx/modules/
+sudo cp -f "$UTILS_ROOT"/etc/nginx/sites-available/*.conf /etc/nginx/sites-available/
 sudo ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 sudo ln -sf /etc/nginx/sites-available/mastodon.conf /etc/nginx/sites-enabled/mastodon.conf
+sudo sed -i /etc/nginx/sites-available/mastodon.conf -e "s|mastodon.example.com|$MASTODON_DOMAIN|g"
 sudo nginx -t
-sudo systemctl start nginx
 
 # configure mastodon systemd services
-sudo cp "$APP_ROOT"/dist/mastodon-*.service /etc/systemd/system/
+sudo cp "$UTILS_ROOT"/etc/systemd/system/mastodon-*.service /etc/systemd/system/
+
+# fix hard-coded /home/mastodon in systemd files (this is the default from init.sh anyways, so it probably won't change)
+sudo sed -i /etc/systemd/system/mastodon-*.service -e "s|/home/mastodon|$MASTODON_ROOT|g"
 
 # start everything up!
 sudo systemctl daemon-reload
 sudo systemctl enable --now mastodon-web mastodon-sidekiq mastodon-streaming
+sudo systemctl start nginx
 
 # wait a bit to be safe
 sleep 5
