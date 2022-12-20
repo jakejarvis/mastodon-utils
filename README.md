@@ -38,12 +38,10 @@ git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils 
   - **Optional:** To make your life easier, you can also source this script from the `.bashrc` of the `mastodon` user and/or whichever user you regularly SSH in as:
 
 ```sh
-if [ -f /home/mastodon/utils/init.sh ]; then
-  . /home/mastodon/utils/init.sh
-fi
+[ -s /home/mastodon/utils/init.sh ] && \. /home/mastodon/utils/init.sh >/dev/null 2>&1
 ```
 
-- [`version.sh`](scripts/version.sh): Tests `init.sh` by printing Mastodon, Ruby, and rbenv versions.
+- [`version.sh`](scripts/version.sh): Tests `init.sh` by printing version of Mastodon, rbenv, nvm, Ruby, Node, and Yarn.
 
 #### Periodic tasks
 
@@ -56,7 +54,7 @@ fi
 
 **The following scripts are highly opinionated, catastrophically destructive, and very specific to me.** Check them out line-by-line instead of running them.
 
-- [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu 20.04 and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_ROOT` and other paths in [`init.sh`](init.sh) first if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
+- [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu 20.04 and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_USER` and other paths in [`init.sh`](init.sh) first if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
 - [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and ***re-applies every patch*** listed below. [Get the far less dangerous version of `upgrade.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh)
 - [`apply_patches.sh`](scripts/apply_patches.sh): Apply every patch below on top of the currently installed version of Mastodon.
 

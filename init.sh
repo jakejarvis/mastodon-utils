@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# user running mastodon
+export MASTODON_USER=mastodon
+
 # default paths
-export MASTODON_ROOT=/home/mastodon
+export MASTODON_ROOT="/home/$MASTODON_USER"   # home dir of the user above
 export UTILS_ROOT="$MASTODON_ROOT/utils"      # this repository
 export APP_ROOT="$MASTODON_ROOT/live"         # actual Mastodon files
 export BACKUPS_ROOT="$MASTODON_ROOT/backups"  # backups destination
@@ -33,22 +36,22 @@ fi
 # clone this repo if it doesn't exist in the proper location
 # if [ ! -d "$UTILS_ROOT" ]; then
 #   echo "⚠️ Couldn't find mastodon-utils at '$UTILS_ROOT', cloning it for you..."
-#   sudo -u mastodon git clone https://github.com/jakejarvis/mastodon-utils.git "$UTILS_ROOT"
+#   as_mastodon git clone https://github.com/jakejarvis/mastodon-utils.git "$UTILS_ROOT"
 # fi
 
 # ---
 
-# run a given command as the 'mastodon' user (`as_mastodon whoami`)
+# run a given command as MASTODON_USER (`as_mastodon whoami`)
 as_mastodon() {
   # don't do unnecessary sudo'ing if we're already mastodon
-  if [ "$(whoami)" != "mastodon" ]; then
-    sudo -u mastodon env "PATH=$PATH" "$@"
+  if [ "$(whoami)" != "$MASTODON_USER" ]; then
+    sudo -u "$MASTODON_USER" env "PATH=$PATH" "$@"
   else
     "$@"
   fi
 }
 
-# run 'bin/tootctl' as 'mastodon' in '/home/mastodon/live' from anywhere (`tootctl version`)
+# run 'bin/tootctl' as MASTODON_USER in APP_ROOT from anywhere (`tootctl version`)
 tootctl() {
   ( cd "$APP_ROOT" && as_mastodon RAILS_ENV=production ruby "$APP_ROOT/bin/tootctl" "$@" )
 }

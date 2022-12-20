@@ -6,6 +6,9 @@ set -euo pipefail
 # initialize path
 . "$(dirname "$(realpath "$0")")"/../init.sh
 
-echo "* rbenv version: $(rbenv --version)"
-echo "* Ruby version: $(ruby --version)"
-echo "* Mastodon version: $(tootctl version)"
+echo "* rbenv:    $(rbenv --version)"
+echo "* nvm:      $(nvm --version)"
+echo "* Ruby:     $(ruby --version)"
+echo "* Node.js:  $(node --version)"
+echo "* Yarn:     $(yarn --version)"
+echo "* Mastodon: $(tootctl version)"

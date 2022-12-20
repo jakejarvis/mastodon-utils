@@ -39,7 +39,7 @@ sudo cp "$APP_ROOT/.env.production" "$TEMP_DIR/env.production"
 echo "Compressing..."
 ARCHIVE_DEST="$BACKUPS_ROOT/mastodon-$(date "+%Y.%m.%d-%H.%M.%S").tar.gz"
 sudo tar --owner=0 --group=0 -czvf "$ARCHIVE_DEST" -C "$TEMP_DIR" .
-sudo chown mastodon:mastodon "$ARCHIVE_DEST"
+sudo chown "$MASTODON_USER":"$MASTODON_USER" "$ARCHIVE_DEST"
 
 sudo rm -rf --preserve-root "$TEMP_DIR"
 

@@ -31,12 +31,11 @@ else
 fi
 
 # set new ruby version
-RUBY_VERSION="$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
-as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing "$RUBY_VERSION"
-as_mastodon rbenv global "$RUBY_VERSION"
+as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing
+as_mastodon rbenv global "$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
 
 # set new node version
-as_mastodon bash -c "\. "$NVM_DIR/nvm.sh"; nvm install; nvm use; npm install --global yarn"
+as_mastodon bash -c "\. \"$NVM_DIR/nvm.sh\"; nvm install; nvm use; npm install --global yarn"
 
 # update dependencies
 as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
@@ -48,7 +47,8 @@ as_mastodon yarn install --pure-lockfile --network-timeout 100000
 # run migrations:
 # https://docs.joinmastodon.org/admin/upgrading/
 echo "Running pre-deploy database migrations..."
-as_mastodon SKIP_POST_DEPLOYMENT_MIGRATIONS=true RAILS_ENV=production DB_PORT=5432 bundle exec rails db:migrate
+# note: DB_PORT is hard-coded because we need the raw DB, and .env.production might be pointing at pgbouncer
+as_mastodon DB_PORT=5432 SKIP_POST_DEPLOYMENT_MIGRATIONS=true RAILS_ENV=production bundle exec rails db:migrate
 
 # restart mastodon
 echo "Restarting services (round 1/2)..."
@@ -58,7 +58,8 @@ sudo systemctl restart mastodon-web mastodon-sidekiq mastodon-streaming
 echo "Clearing cache..."
 as_mastodon RAILS_ENV=production ruby "$APP_ROOT/bin/tootctl" cache clear
 echo "Running post-deploy database migrations..."
-as_mastodon RAILS_ENV=production DB_PORT=5432 bundle exec rails db:migrate
+# note: DB_PORT is hard-coded because we need the raw DB, and .env.production might be pointing at pgbouncer
+as_mastodon DB_PORT=5432 RAILS_ENV=production bundle exec rails db:migrate
 
 # restart mastodon again
 echo "Restarting services (round 2/2)..."
