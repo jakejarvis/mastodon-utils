@@ -7,6 +7,8 @@
 # exit when any step fails
 set -euo pipefail
 
+echo -e "\n===== weekly_cleanup.sh: started at $(date '+%Y-%m-%d %H:%M:%S') =====\n"
+
 # initialize path
 . "$(dirname "$(realpath "$0")")"/../init.sh
 
@@ -16,3 +18,5 @@ fi
 
 tootctl media remove --days 7
 tootctl preview_cards remove --days 90
+
+echo -e "\n===== weekly_cleanup.sh: finished at $(date '+%Y-%m-%d %H:%M:%S') =====\n"

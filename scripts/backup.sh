@@ -7,6 +7,8 @@
 # exit when any step fails
 set -euo pipefail
 
+echo -e "\n===== backup.sh: started at $(date '+%Y-%m-%d %H:%M:%S') =====\n"
+
 # initialize path
 . "$(dirname "$(realpath "$0")")"/../init.sh
 
@@ -45,3 +47,5 @@ sudo rm -rf --preserve-root "$TEMP_DIR"
 
 echo "Saved to $ARCHIVE_DEST"
 echo "🎉 done! (keep this archive safe!)"
+
+echo -e "\n===== backup.sh: finished at $(date '+%Y-%m-%d %H:%M:%S') =====\n"
