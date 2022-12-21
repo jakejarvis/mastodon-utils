@@ -27,7 +27,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.3.1"
+      "version": "9.3.2"
     },
     {
       "type": "datasource",
@@ -138,7 +138,7 @@
         "content": "<div style=\"text-align:center;\">\n  Say hi:\n  <a href=\"https://fediverse.jarv.is/@jake\" target=\"_blank\"><strong>@jake@jarv.is</strong></a> on <a href=\"https://fediverse.jarv.is/about\" target=\"blank\">fediverse.jarv.is</a>\n</div>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "title": "🦣 Welcome to the public metrics for my single-user Mastodon server! 📈",
       "transparent": true,
       "type": "text"
@@ -222,7 +222,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -301,7 +301,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -389,7 +389,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -474,7 +474,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -550,7 +550,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -665,7 +665,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -1011,7 +1011,6 @@
           },
           "links": [],
           "mappings": [],
-          "max": 8000000000,
           "min": 0,
           "thresholds": {
             "mode": "percentage",
@@ -1350,13 +1349,7 @@
             "mode": "thresholds"
           },
           "decimals": 0,
-          "links": [
-            {
-              "targetBlank": true,
-              "title": "Sidekiq",
-              "url": "https://fediverse.jarv.is/sidekiq"
-            }
-          ],
+          "links": [],
           "mappings": [],
           "thresholds": {
             "mode": "percentage",
@@ -1398,6 +1391,16 @@
                     }
                   ]
                 }
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "https://fediverse.jarv.is/sidekiq/busy"
+                  }
+                ]
               }
             ]
           },
@@ -1413,6 +1416,16 @@
                   "fixedColor": "blue",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "https://fediverse.jarv.is/sidekiq/scheduled"
+                  }
+                ]
               }
             ]
           },
@@ -1428,6 +1441,16 @@
                   "fixedColor": "orange",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "https://fediverse.jarv.is/sidekiq/retries"
+                  }
+                ]
               }
             ]
           },
@@ -1442,21 +1465,16 @@
                 "value": {
                   "mode": "fixed"
                 }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Failed"
-            },
-            "properties": [
+              },
               {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
-                }
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "https://fediverse.jarv.is/sidekiq/morgue"
+                  }
+                ]
               }
             ]
           }
@@ -1491,7 +1509,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -1707,7 +1725,7 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -1782,8 +1800,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -1904,8 +1921,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1974,8 +1990,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -2004,7 +2019,7 @@
         },
         "showUnfilled": true
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -2091,7 +2106,7 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -2260,7 +2275,7 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -2496,204 +2511,6 @@
         "x": 0,
         "y": 38
       },
-      "id": 97,
-      "panels": [],
-      "title": "Media Storage",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "Total size of all files in the media storage bucket.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "orange",
-            "mode": "fixed"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 40,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 39
-      },
-      "id": 95,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "expr": "json_linode_size{bucket=\"jarvis-mastodon\", zone=\"us-east-1\"}",
-          "legendFormat": "{{hostname}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Linode Bucket Size",
-      "transformations": [],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "Number of files in the media storage bucket.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "green",
-            "mode": "fixed"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 40,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 39
-      },
-      "id": 93,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "json_linode_objects{bucket=\"jarvis-mastodon\", zone=\"us-east-1\"}",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "{{hostname}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Linode Bucket Objects",
-      "transformations": [],
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 46
-      },
       "id": 7,
       "panels": [],
       "title": "Database",
@@ -2757,7 +2574,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 47
+        "y": 39
       },
       "id": 10,
       "options": {
@@ -2865,7 +2682,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 47
+        "y": 39
       },
       "id": 11,
       "options": {
@@ -2963,7 +2780,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 54
+        "y": 46
       },
       "id": 4,
       "options": {
@@ -3081,7 +2898,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 54
+        "y": 46
       },
       "id": 5,
       "options": {
@@ -3125,6 +2942,204 @@
           }
         }
       ],
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 53
+      },
+      "id": 97,
+      "panels": [],
+      "title": "Media Storage",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Total size of all files in the media storage bucket.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 40,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 54
+      },
+      "id": 95,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "json_linode_size{bucket=\"jarvis-mastodon\", zone=\"us-east-1\"}",
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Linode Bucket Size",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Number of files in the media storage bucket.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 40,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 54
+      },
+      "id": 93,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "json_linode_objects{bucket=\"jarvis-mastodon\", zone=\"us-east-1\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Linode Bucket Objects",
+      "transformations": [],
       "type": "timeseries"
     },
     {
@@ -3578,6 +3593,6 @@
   "timezone": "America/New_York",
   "title": "Mastodon public",
   "uid": "IXDZT_dV9",
-  "version": 299,
+  "version": 306,
   "weekStart": "sunday"
 }

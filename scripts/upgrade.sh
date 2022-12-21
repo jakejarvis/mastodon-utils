@@ -30,6 +30,13 @@ else
   as_mastodon git checkout "$(as_mastodon git tag -l | grep -v 'rc[0-9]*$' | sort -V | tail -n 1)"
 fi
 
+# apply custom patches
+as_mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/*.patch
+if [ -d "$APP_ROOT/app/javascript/flavours/glitch" ]; then
+  # apply additional glitch-only patches:
+  as_mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/glitch/*.patch
+fi
+
 # set new ruby version
 as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing
 as_mastodon rbenv global "$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
@@ -41,8 +48,9 @@ as_mastodon bash -c "\. \"$NVM_DIR/nvm.sh\"; nvm install; nvm use; npm install -
 as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
 as_mastodon yarn install --pure-lockfile --network-timeout 100000
 
-# pull & apply latest patches
-. "$UTILS_ROOT/scripts/apply_patches.sh"
+# compile new assets
+echo "Compiling new assets..."
+as_mastodon RAILS_ENV=production bundle exec rails assets:precompile
 
 # run migrations:
 # https://docs.joinmastodon.org/admin/upgrading/

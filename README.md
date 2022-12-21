@@ -56,7 +56,6 @@ git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils 
 
 - [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu 20.04 and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_USER` and other paths in [`init.sh`](init.sh) first if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
 - [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and ***re-applies every patch*** listed below. [Get the far less dangerous version of `upgrade.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh)
-- [`apply_patches.sh`](scripts/apply_patches.sh): Apply every patch below on top of the currently installed version of Mastodon.
 
 ## Patches
 
@@ -64,8 +63,8 @@ git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils 
 
 - [`robots.patch`](patches/robots.patch): Disallow search engines for all of Mastodon
 - [`increase-sidekiq-timeout.patch`](patches/increase-sidekiq-timeout.patch): Small bump in Sidekiq's timeout before it decides a remote instance isn't available. **Use this one very carefully!**
-- [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`admin-move-federation-to-sidebar.patch`](patches/admin-move-federation-to-sidebar.patch): Why is the most frequently used admin page listed under a link that takes you to another page to open a submenu in the sidebar to finally be able to click on it to go to the page?!?
+- [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`system-font.patch`](patches/system-font.patch): Use the system's default sans-serif font stack instead of Roboto
   - [`glitch/system-font.patch`](patches/glitch/system-font.patch)
 - [`hide-contact-email.patch`](patches/hide-contact-email.patch): Hides the `mailto:` link on the About page

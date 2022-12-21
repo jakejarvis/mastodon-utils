@@ -122,6 +122,11 @@ as_mastodon git checkout "$(as_mastodon git describe --abbrev=0 --tags --match "
 # clone glitch-soc & checkout latest commit:
 # as_mastodon git clone https://github.com/glitch-soc/mastodon.git "$APP_ROOT" && cd "$APP_ROOT"
 
+# apply custom patches:
+as_mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/*.patch
+# apply additional glitch-only patches:
+# as_mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/glitch/*.patch
+
 # install ruby
 as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing
 as_mastodon rbenv global "$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
@@ -203,8 +208,8 @@ STREAMING_CLUSTER_NUM=1
 # manually setup db
 as_mastodon RAILS_ENV=production bundle exec rails db:setup
 
-# apply custom patches & precompile assets
-. "$UTILS_ROOT/scripts/apply_patches.sh"
+# precompile assets
+as_mastodon RAILS_ENV=production bundle exec rails assets:precompile
 
 # install latest certbot
 # https://certbot.eff.org/instructions?ws=nginx&os=pip
