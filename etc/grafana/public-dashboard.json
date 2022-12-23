@@ -559,26 +559,12 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(json_linode_transfer_used / ( json_linode_transfer_quota / 2)) * 100",
+          "expr": "(json_linode_transfer_used / json_linode_transfer_quota) * 100",
           "hide": false,
           "instant": true,
           "legendFormat": "",
           "range": false,
           "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "((json_linode_transfer * 100) / (250 * 1000000000))",
-          "hide": true,
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
         }
       ],
       "title": "Linode Transfer Quota %",
@@ -600,7 +586,7 @@
             {
               "targetBlank": true,
               "title": "Status history",
-              "url": "https://status.pipe.fail/"
+              "url": "https://status.jarv.is/"
             }
           ],
           "mappings": [
@@ -647,7 +633,7 @@
         {
           "targetBlank": true,
           "title": "Status page",
-          "url": "https://status.pipe.fail/"
+          "url": "https://status.jarv.is/"
         }
       ],
       "maxDataPoints": 100,
@@ -1800,7 +1786,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -1921,7 +1908,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -1990,7 +1978,8 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -3593,6 +3582,6 @@
   "timezone": "America/New_York",
   "title": "Mastodon public",
   "uid": "IXDZT_dV9",
-  "version": 306,
+  "version": 313,
   "weekStart": "sunday"
 }

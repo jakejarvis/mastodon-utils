@@ -63,8 +63,6 @@ git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils 
 
 - [`robots.patch`](patches/robots.patch): Disallow search engines for all of Mastodon
 - [`increase-sidekiq-timeout.patch`](patches/increase-sidekiq-timeout.patch): Small bump in Sidekiq's timeout before it decides a remote instance isn't available. **Use this one very carefully!**
-- [`admin-move-federation-to-sidebar.patch`](patches/admin-move-federation-to-sidebar.patch): Why is the most frequently used admin page listed under a link that takes you to another page to open a submenu in the sidebar to finally be able to click on it to go to the page?!?
-- [`favicons.patch`](patches/favicons.patch): Use custom icon images instead of Mastodon logo
 - [`system-font.patch`](patches/system-font.patch): Use the system's default sans-serif font stack instead of Roboto
   - [`glitch/system-font.patch`](patches/glitch/system-font.patch)
 - [`hide-contact-email.patch`](patches/hide-contact-email.patch): Hides the `mailto:` link on the About page
@@ -76,6 +74,7 @@ git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils 
 
 #### `glitch-soc` only:
   - [`custom-glitch-defaults.patch`](patches/glitch/custom-glitch-defaults.patch): Sets default Glitch appearance settings for logged-out users
+  - [`settings-sidebar-cleanup.patch`](patches/glitch/settings-sidebar-cleanup.patch): Why is the most frequently used admin page listed under a link that takes you to another page to open a submenu in the sidebar to finally be able to click on it to go to the page?!?
   - [`remove-glitch-cruft.patch`](patches/glitch/remove-glitch-cruft.patch): Removes a bunch of junk no longer used by `glitch-soc`
   - [`sidebar-logo.patch`](patches/glitch/sidebar-logo.patch): Restore Mastodon logo in logged-out sidebar
 
