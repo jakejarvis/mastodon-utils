@@ -43,15 +43,32 @@ fi
 
 # run a given command as MASTODON_USER (`as_mastodon whoami`)
 as_mastodon() {
-  # don't do unnecessary sudo'ing if we're already mastodon
+  # crazy bandaids to make sure node & ruby are always available to MASTODON_USER
+  # support quotes in args: https://stackoverflow.com/a/68898864/1438024
+  CMD=$(
+    (
+      PS4='+'
+      exec 2>&1
+      set -x
+      true "$@"
+    ) | sed 's/^+*true //'
+  )
+  if [ -s "$RBENV_ROOT/bin/rbenv" ]; then
+    CMD="eval \"\$(\"$RBENV_ROOT\"/bin/rbenv init - bash)\"; $CMD"
+  fi
+  if [ -s "$NVM_DIR/nvm.sh" ]; then
+    CMD="source \"$NVM_DIR/nvm.sh\"; $CMD"
+  fi
+
+  # don't do unnecessary sudo'ing if we're already MASTODON_USER
   if [ "$(whoami)" != "$MASTODON_USER" ]; then
-    sudo -u "$MASTODON_USER" env "PATH=$PATH" "$@"
+    sudo -u "$MASTODON_USER" env "PATH=$PATH" "NVM_DIR=$NVM_DIR" "RBENV_ROOT=$RBENV_ROOT" bash -c "$CMD"
   else
-    "$@"
+    bash -c "$CMD"
   fi
 }
 
 # run 'bin/tootctl' as MASTODON_USER in APP_ROOT from anywhere (`tootctl version`)
 tootctl() {
-  ( cd "$APP_ROOT" && as_mastodon RAILS_ENV=production ruby "$APP_ROOT/bin/tootctl" "$@" )
+  ( cd "$APP_ROOT" && as_mastodon RAILS_ENV=production ruby ./bin/tootctl "$@" )
 }

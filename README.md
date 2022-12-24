@@ -20,9 +20,11 @@ The [wiki of this repo](https://github.com/jakejarvis/mastodon-utils/wiki) and t
 ***AGAIN, DEFINITELY DO NOT JUST RUN THIS IF YOU'RE NOT ME!!! 😊***
 
 ```sh
-git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils && cd /home/mastodon/utils
+mkdir -p /home/mastodon
+git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils
+cd /home/mastodon/utils
 
-# install Mastodon on fresh Ubuntu 20.04:
+# install Mastodon on fresh Ubuntu box:
 ./scripts/install.sh
 
 # back up Postgres, Redis, and secrets:
@@ -54,7 +56,7 @@ git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils 
 
 **The following scripts are highly opinionated, catastrophically destructive, and very specific to me.** Check them out line-by-line instead of running them.
 
-- [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu 20.04 and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_USER` and other paths in [`init.sh`](init.sh) first if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
+- [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_USER` and other paths in [`init.sh`](init.sh) first if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
 - [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and ***re-applies every patch*** listed below. [Get the far less dangerous version of `upgrade.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh)
 
 ## Patches

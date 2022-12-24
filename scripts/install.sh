@@ -24,7 +24,7 @@ fi
 
 # ask for required info up-front
 read -p "Server FQDN? " MASTODON_DOMAIN
-read -p "Public domain? (the second part of usernames, usually the same) " MASTODON_USERNAME_DOMAIN
+read -p "Public domain? (the second part of usernames, usually the same as FQDN) " MASTODON_USERNAME_DOMAIN
 read -p "Admin username? " MASTODON_ADMIN_USERNAME
 read -p "Admin email? " MASTODON_ADMIN_EMAIL
 
@@ -39,13 +39,14 @@ sudo hostnamectl set-hostname "$MASTODON_DOMAIN"
 
 # create non-root user named MASTODON_USER (unless it already exists)
 if ! id -u "$MASTODON_USER" >/dev/null 2>&1; then
-  sudo adduser --disabled-login --gecos "Mastodon" "$MASTODON_USER"
+  sudo adduser --gecos "Mastodon" --home "$MASTODON_ROOT" --disabled-login "$MASTODON_USER"
+  echo "[ -s \"$UTILS_ROOT/init.sh\" ] && \. \"$UTILS_ROOT/init.sh\" >/dev/null 2>&1" | sudo tee -a "$MASTODON_ROOT/.bashrc" >/dev/null
+  sudo chown -R "$MASTODON_USER":"$MASTODON_USER" "$MASTODON_ROOT"
 fi
 
 # install latest ubuntu updates
-sudo apt update
-sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
-sudo DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
+sudo DEBIAN_FRONTEND=noninteractive apt-get update
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   curl \
   wget \
   gnupg \
@@ -67,8 +68,8 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nginx
 
 # install prerequisites:
 # https://docs.joinmastodon.org/admin/install/#system-packages
-sudo apt update
-sudo DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
+sudo DEBIAN_FRONTEND=noninteractive apt-get update
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   git-core \
   g++ \
   libpq-dev \
@@ -108,42 +109,50 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
 # https://github.com/rbenv/ruby-build#clone-as-rbenv-plugin-using-git
 as_mastodon git clone https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
 as_mastodon git clone https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
-eval "$("$RBENV_ROOT"/bin/rbenv init -)"
 
 # install nvm
 # https://github.com/nvm-sh/nvm#manual-install
-as_mastodon git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR" && cd "$NVM_DIR"
-as_mastodon git checkout "$(as_mastodon git describe --abbrev=0 --tags --match "v[0-9]*" "$(as_mastodon git rev-list --tags --max-count=1)")"
-. "$NVM_DIR/nvm.sh"
+as_mastodon git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
 
 # clone vanilla Mastodon & checkout latest version:
 as_mastodon git clone https://github.com/mastodon/mastodon.git "$APP_ROOT" && cd "$APP_ROOT"
-as_mastodon git checkout "$(as_mastodon git describe --abbrev=0 --tags --match "v[0-9]*" "$(as_mastodon git rev-list --tags --max-count=1)")"
-# clone glitch-soc & checkout latest commit:
-# as_mastodon git clone https://github.com/glitch-soc/mastodon.git "$APP_ROOT" && cd "$APP_ROOT"
+as_mastodon git config --global --add safe.directory "$APP_ROOT"
+as_mastodon git checkout "$(as_mastodon git tag -l | grep -v 'rc[0-9]*$' | sort -V | tail -n 1)"
+# uncomment to install glitch-soc fork:
+# as_mastodon git remote add glitch-soc https://github.com/glitch-soc/mastodon
+# as_mastodon git fetch --all
+# as_mastodon git checkout glitch-soc/main
 
-# apply custom patches:
-as_mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/*.patch
-# apply additional glitch-only patches:
-# as_mastodon git apply --reject --allow-binary-replacement "$UTILS_ROOT"/patches/glitch/*.patch
+# apply custom patches (skips errors):
+for PATCH in "$UTILS_ROOT"/patches/*.patch; do
+  as_mastodon git apply --reject --allow-binary-replacement "$PATCH" || true
+done
+# apply additional glitch-only patches if applicable:
+if [ -d "$APP_ROOT/app/javascript/flavours/glitch" ]; then
+  for PATCH in "$UTILS_ROOT"/patches/glitch/*.patch; do
+    as_mastodon git apply --reject --allow-binary-replacement "$PATCH" || true
+  done
+fi
 
 # install ruby
 as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing
 as_mastodon rbenv global "$(as_mastodon cat "$APP_ROOT"/.ruby-version)"
 
 # install node & yarn
-as_mastodon bash -c "\. \"$NVM_DIR/nvm.sh\"; nvm install; nvm use; npm install --global yarn"
+as_mastodon nvm install
+as_mastodon nvm use
+as_mastodon npm install --global yarn
 
 # install npm and gem dependencies
 as_mastodon gem install bundler --no-document
 as_mastodon bundle config deployment "true"
 as_mastodon bundle config without "development test"
 as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
-as_mastodon yarn install --pure-lockfile --network-timeout 100000
+as_mastodon yarn install --pure-lockfile
 
 # set up database w/ random alphanumeric password
 DB_PASSWORD=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c32; echo)
-echo "CREATE USER '$MASTODON_USER' WITH PASSWORD '$DB_PASSWORD' CREATEDB" | sudo -u postgres psql -f -
+echo "CREATE USER $MASTODON_USER WITH PASSWORD '$DB_PASSWORD' CREATEDB" | sudo -u postgres psql -f -
 
 # populate .env.production config
 echo "$INSTALLER_WUZ_HERE
@@ -234,6 +243,7 @@ sudo certbot certonly \
 sudo mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 sudo cp "$UTILS_ROOT"/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 sudo sed -i /etc/nginx/nginx.conf -e "s|user nginx;|user $MASTODON_USER;|g"
+sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
 sudo cp -f "$UTILS_ROOT"/etc/nginx/sites-available/*.conf /etc/nginx/sites-available/
 sudo sed -i /etc/nginx/sites-available/mastodon.conf -e "s|mastodon.example.com|$MASTODON_DOMAIN|g"
 sudo sed -i /etc/nginx/sites-available/mastodon.conf -e "s|/home/mastodon/live|$APP_ROOT|g"
@@ -272,5 +282,5 @@ tootctl accounts create \
 @weekly  bash -c \"$UTILS_ROOT/scripts/weekly_cleanup.sh >> $LOGS_ROOT/cron.log 2>&1\"
 ") | sudo crontab -
 
-echo "🎉 done! don't forget to fill in .env.production with credentials"
+echo "🎉 done! don't forget to fill in .env.production with optional credentials"
 echo "https://$MASTODON_DOMAIN/auth/sign_in"
