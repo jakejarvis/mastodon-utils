@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# cronjob ran once per week at 3 AM on Monday; see https://crontab.guru/#0_3_*_*_1
+# cronjob ran every day at 3:15 AM; see https://crontab.guru/#15_3_*_*_*
 # syntax for crontab -e:
-#   0 3 * * 1  bash -c "/home/mastodon/utils/scripts/backup.sh >> /home/mastodon/logs/cron.log 2>&1"
+#   15 3 * * *  bash -c "/home/mastodon/utils/scripts/backup.sh >> /home/mastodon/logs/cron.log 2>&1"
 
 # exit when any step fails
 set -euo pipefail
@@ -38,14 +38,25 @@ sudo cp /var/lib/redis/dump.rdb "$TEMP_DIR/redis.rdb"
 echo "Backing up secrets..."
 sudo cp "$APP_ROOT/.env.production" "$TEMP_DIR/env.production"
 
+echo "Backing up certs..."
+sudo mkdir -p "$TEMP_DIR/certs"
+sudo cp -r /etc/letsencrypt/{archive,live,renewal} "$TEMP_DIR/certs/"
+
 echo "Compressing..."
 ARCHIVE_DEST="$BACKUPS_ROOT/mastodon-$(date "+%Y.%m.%d-%H.%M.%S").tar.gz"
 sudo tar --owner=0 --group=0 -czvf "$ARCHIVE_DEST" -C "$TEMP_DIR" .
 sudo chown "$MASTODON_USER":"$MASTODON_USER" "$ARCHIVE_DEST"
 
+echo "Removing temp files..."
 sudo rm -rf --preserve-root "$TEMP_DIR"
 
 echo "Saved to $ARCHIVE_DEST"
+
+if command -v linode-cli >/dev/null 2>&1; then
+  echo "Uploading to S3..."
+  sudo linode-cli obj put "$ARCHIVE_DEST" jarvis-backup
+fi
+
 echo "🎉 done! (keep this archive safe!)"
 
 echo -e "\n===== backup.sh: finished at $(date '+%Y-%m-%d %H:%M:%S') =====\n"

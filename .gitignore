@@ -1,0 +1,4 @@
+# here be secrets
+*.env*
+!.env.example
+*.pem
