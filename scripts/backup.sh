@@ -52,9 +52,9 @@ sudo rm -rf --preserve-root "$TEMP_DIR"
 
 echo "Saved to $ARCHIVE_DEST"
 
-if command -v linode-cli >/dev/null 2>&1; then
+if [ -s /usr/local/bin/linode-cli ]; then
   echo "Uploading to S3..."
-  sudo linode-cli obj put "$ARCHIVE_DEST" jarvis-backup
+  sudo /usr/local/bin/linode-cli obj put "$ARCHIVE_DEST" jarvis-backup
 fi
 
 echo "🎉 done! (keep this archive safe!)"
