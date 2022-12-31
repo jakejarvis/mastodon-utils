@@ -12,6 +12,10 @@ export LOGS_ROOT="$MASTODON_ROOT/logs"        # logs destintation
 export RBENV_ROOT="$MASTODON_ROOT/.rbenv"     # rbenv (w/ ruby-build plugin) directory
 export NVM_DIR="$MASTODON_ROOT/.nvm"          # nvm directory
 
+# automatically detect glitch-soc
+# shellcheck disable=SC2155
+export MASTODON_IS_GLITCH=$(test -d "$APP_ROOT/app/javascript/flavours/glitch" && echo true || echo false)
+
 # ---
 
 # initialize rbenv
@@ -23,7 +27,8 @@ fi
 
 # initialize nvm
 if [ -s "$NVM_DIR/nvm.sh" ]; then
-  . "$NVM_DIR/nvm.sh"
+  # shellcheck disable=SC1091
+  source "$NVM_DIR/nvm.sh"
 else
   echo "⚠️ Couldn't find nvm.sh in '$NVM_DIR', double check the paths set in '$UTILS_ROOT/init.sh'..."
 fi
@@ -72,3 +77,8 @@ as_mastodon() {
 tootctl() {
   ( cd "$APP_ROOT" && as_mastodon RAILS_ENV=production ruby ./bin/tootctl "$@" )
 }
+
+# ---
+
+# keep track of whether this file has already been run
+export MASTODON_INIT_RUN=true

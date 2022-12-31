@@ -23,10 +23,6 @@ if [ ! -d "$BACKUPS_ROOT" ]; then
   as_mastodon mkdir -p "$BACKUPS_ROOT"
 fi
 
-if [ ! -d "$LOGS_ROOT" ]; then
-  as_mastodon mkdir -p "$LOGS_ROOT"
-fi
-
 TEMP_DIR=$(as_mastodon mktemp -d)
 
 echo "Backing up Postgres..."

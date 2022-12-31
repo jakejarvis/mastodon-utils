@@ -19,7 +19,7 @@ fi
 # pull latest mastodon source
 cd "$APP_ROOT"
 as_mastodon git fetch --all
-as_mastodon git stash push --message "pre-upgrade changes"
+as_mastodon git stash push --include-untracked --message "pre-upgrade changes"
 if [ -d "$APP_ROOT/app/javascript/flavours/glitch" ]; then
   # glitch-soc (uses latest commits)
   echo "Pulling latest glitch-soc commits..."
@@ -30,16 +30,8 @@ else
   as_mastodon git checkout "$(as_mastodon git tag -l | grep -v 'rc[0-9]*$' | sort -V | tail -n 1)"
 fi
 
-# apply custom patches (skips errors):
-for PATCH in "$UTILS_ROOT"/patches/*.patch; do
-  as_mastodon git apply --reject --allow-binary-replacement "$PATCH" || true
-done
-# apply additional glitch-only patches if applicable:
-if [ -d "$APP_ROOT/app/javascript/flavours/glitch" ]; then
-  for PATCH in "$UTILS_ROOT"/patches/glitch/*.patch; do
-    as_mastodon git apply --reject --allow-binary-replacement "$PATCH" || true
-  done
-fi
+# re-apply customizations
+. "$UTILS_ROOT"/scripts/customize.sh
 
 # set new ruby version
 as_mastodon RUBY_CONFIGURE_OPTS=--with-jemalloc rbenv install --skip-existing

@@ -36,49 +36,51 @@ cd /home/mastodon/utils
 
 ## Scripts
 
-- [`init.sh`](init.sh): A small helper that runs at the very beginning of each script below to initialize `rbenv` and set consistent environment variables.
+- [`init.sh`](init.sh): A small helper that runs at the very beginning of each script below to initialize `nvm`/`rbenv` and set consistent environment variables.
   - **Optional:** To make your life easier, you can also source this script from the `.bashrc` of the `mastodon` user and/or whichever user you regularly SSH in as:
 
 ```sh
 [ -s /home/mastodon/utils/init.sh ] && \. /home/mastodon/utils/init.sh >/dev/null 2>&1
 ```
 
-- [`version.sh`](scripts/version.sh): Tests `init.sh` by printing version of Mastodon, rbenv, nvm, Ruby, Node, and Yarn.
+- [`version.sh`](scripts/version.sh): Tests `init.sh` by printing the versions of Mastodon, rbenv, nvm, Ruby, Node, and Yarn.
 
 #### Periodic tasks
 
 - [`backup.sh`](scripts/backup.sh): Backs up Postgres, Redis, and `.env.production` secrets to a `.tar.gz` file in `/home/mastodon/backups` — useful for a [periodic cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cron-jobs#backups).
 - [`weekly_cleanup.sh`](scripts/weekly_cleanup.sh): Runs Mastodon's built-in [cleanup commands](https://docs.joinmastodon.org/admin/setup/#cleanup), designed for a [weekly cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cron-jobs#media-cleanup).
-  - Keeps 7 days of media (in object storage)
-  - Keeps 90 days of generated preview cards
+  - Keeps 14 days of media
+  - Keeps 90 days of profile avatars, headers, and link preview cards
 
 #### Dangerous
 
 **The following scripts are highly opinionated, catastrophically destructive, and very specific to me.** Check them out line-by-line instead of running them.
 
 - [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_USER` and other paths in [`init.sh`](init.sh) first if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
-- [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and ***re-applies every patch*** listed below. [Get the far less dangerous version of `upgrade.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh)
+- [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and ***re-applies all customizations***. [Get the far less dangerous version of `upgrade.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh)
+- [`customize.sh`](scripts/customize.sh): Applies ***every Git patch below***, sets defaults (mostly for logged-out visitors) and removes unused files.
 
 ## Patches
 
+#### Vanilla only:
+
+- [`increase-sidekiq-timeout.patch`](patches/increase-sidekiq-timeout.patch): Small bump in Sidekiq's timeout before it decides a remote instance isn't available. **Use this one very carefully!**
+
 #### Vanilla and `glitch-soc`:
 
-- [`robots.patch`](patches/robots.patch): Disallow search engines for all of Mastodon
-- [`increase-sidekiq-timeout.patch`](patches/increase-sidekiq-timeout.patch): Small bump in Sidekiq's timeout before it decides a remote instance isn't available. **Use this one very carefully!**
 - [`system-font.patch`](patches/system-font.patch): Use the system's default sans-serif font stack instead of Roboto
   - [`glitch/system-font.patch`](patches/glitch/system-font.patch)
 - [`hide-contact-email.patch`](patches/hide-contact-email.patch): Hides the `mailto:` link on the About page
   - [`glitch/hide-contact-email.patch`](patches/glitch/hide-contact-email.patch)
-- [`hide-rules.patch`](patches/hide-rules.patch): Applies just to homepage, meant only for single-user instances
+- [`hide-rules.patch`](patches/hide-rules.patch): Hides the list of rules on the About page (meant only for single-user instances)
   - [`glitch/hide-rules.patch`](patches/glitch/hide-rules.patch)
 - [`hide-signup.patch`](patches/hide-signup.patch): Hide the "create account" button (for aesthetics, **not security!**)
   - [`glitch/hide-signup.patch`](patches/glitch/hide-signup.patch)
 
 #### `glitch-soc` only:
-  - [`custom-glitch-defaults.patch`](patches/glitch/custom-glitch-defaults.patch): Sets default Glitch appearance settings for logged-out users
-  - [`settings-sidebar-cleanup.patch`](patches/glitch/settings-sidebar-cleanup.patch): Why is the most frequently used admin page listed under a link that takes you to another page to open a submenu in the sidebar to finally be able to click on it to go to the page?!?
-  - [`remove-glitch-cruft.patch`](patches/glitch/remove-glitch-cruft.patch): Removes a bunch of junk no longer used by `glitch-soc`
-  - [`sidebar-logo.patch`](patches/glitch/sidebar-logo.patch): Restore Mastodon logo in logged-out sidebar
+
+- [`mastodon-logo.patch`](patches/glitch/sidebar-logo.patch): Restore the Mastodon logo in the non-advanced sidebar
+- [`settings-sidebar-cleanup.patch`](patches/glitch/settings-sidebar-cleanup.patch): Why is the most frequently used admin page listed under a link that takes you to another page to open a submenu in the sidebar to finally be able to click on it to go to the page?!?
 
 ## License
 
