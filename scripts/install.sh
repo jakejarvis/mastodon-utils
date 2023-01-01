@@ -45,14 +45,13 @@ if ! id -u "$MASTODON_USER" >/dev/null 2>&1; then
 fi
 
 # install latest ubuntu updates & basic prerequisites
-sudo DEBIAN_FRONTEND=noninteractive apt-get update
+sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   curl \
   wget \
   gnupg \
   apt-transport-https \
   lsb-release \
-  git \
   ca-certificates
 
 # add official postgresql apt repository
@@ -69,7 +68,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nginx
 
 # install prerequisites:
 # https://docs.joinmastodon.org/admin/install/#system-packages
-sudo DEBIAN_FRONTEND=noninteractive apt-get update
+sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   autoconf \
   bison \
@@ -78,6 +77,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   file \
   g++ \
   gcc \
+  git \
   imagemagick \
   libaugeas-dev \
   libffi-dev \
@@ -99,6 +99,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   postgresql-contrib \
   protobuf-compiler \
   python3 \
+  python3-psycopg2 \
   python3-venv \
   redis-server \
   redis-tools \
@@ -218,7 +219,7 @@ as_mastodon RAILS_ENV=production bundle exec rails assets:precompile
 sudo python3 -m venv /opt/certbot/
 sudo /opt/certbot/bin/pip install --upgrade pip
 sudo /opt/certbot/bin/pip install certbot certbot-nginx
-sudo ln -s /opt/certbot/bin/certbot /usr/bin/certbot
+sudo ln -s /opt/certbot/bin/certbot /usr/local/bin/certbot
 
 # ensure nginx hasn't started itself
 sudo systemctl stop nginx
@@ -238,8 +239,10 @@ sudo cp "$UTILS_ROOT"/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 sudo sed -i /etc/nginx/nginx.conf -e "s|user nginx;|user $MASTODON_USER;|g"
 sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
 sudo cp -f "$UTILS_ROOT"/etc/nginx/sites-available/*.conf /etc/nginx/sites-available/
-sudo sed -i /etc/nginx/sites-available/mastodon.conf -e "s|mastodon.example.com|$MASTODON_DOMAIN|g"
-sudo sed -i /etc/nginx/sites-available/mastodon.conf -e "s|/home/mastodon/live|$APP_ROOT|g"
+sudo sed \
+  -i /etc/nginx/sites-available/mastodon.conf \
+  -e "s|mastodon.example.com|$MASTODON_DOMAIN|g" \
+  -e "s|/home/mastodon/live|$APP_ROOT|g"
 sudo ln -sf /etc/nginx/sites-available/mastodon.conf /etc/nginx/sites-enabled/mastodon.conf
 # sudo ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 sudo cp -f "$UTILS_ROOT"/etc/nginx/modules/* /usr/lib/nginx/modules/
@@ -250,9 +253,11 @@ sudo cp "$UTILS_ROOT"/etc/systemd/system/mastodon-*.service /etc/systemd/system/
 
 # fix hard-coded paths and usernames in systemd files
 # (they already match the defaults from init.sh, so it's likely nothing will change)
-sudo sed -i /etc/systemd/system/mastodon-*.service -e "s|/home/mastodon/live|$APP_ROOT|g"
-sudo sed -i /etc/systemd/system/mastodon-*.service -e "s|/home/mastodon|$MASTODON_ROOT|g"
-sudo sed -i /etc/systemd/system/mastodon-*.service -e "s|User=mastodon|User=$MASTODON_USER|g"
+sudo sed \
+  -i /etc/systemd/system/mastodon-*.service \
+  -e "s|/home/mastodon/live|$APP_ROOT|g" \
+  -e "s|/home/mastodon|$MASTODON_ROOT|g" \
+  -e "s|User=mastodon|User=$MASTODON_USER|g"
 
 # start everything up!
 sudo systemctl daemon-reload
@@ -278,6 +283,10 @@ as_mastodon touch "$LOGS_ROOT"/cron.log
 (sudo crontab -l; echo -e "\n$INSTALLER_WUZ_HERE
 @weekly  bash -c \"$UTILS_ROOT/scripts/weekly_cleanup.sh >> $LOGS_ROOT/cron.log 2>&1\"
 @weekly  bash -c \"$UTILS_ROOT/scripts/backup.sh >> $LOGS_ROOT/cron.log 2>&1\"
+
+# automatically renew Let's Encrypt certificates
+# https://certbot.eff.org/instructions?ws=nginx&os=pip
+0 0,12 * * *  root  /opt/certbot/bin/python -c \"import random; import time; time.sleep(random.random() * 3600)\" && certbot renew -q
 ") | sudo crontab -
 
 echo "🎉 done! don't forget to fill in .env.production with optional credentials"

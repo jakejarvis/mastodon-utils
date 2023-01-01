@@ -76,8 +76,8 @@ fi
 if [ "$MASTODON_IS_GLITCH" = true ]; then
   set_default() {
     as_mastodon sed \
-      -e "s/$1\s*:\s*.*/$1: $2, \/\/ updated by customize.sh/g" \
-      -i "$APP_ROOT/app/javascript/flavours/glitch/reducers/local_settings.js"
+      -i "$APP_ROOT/app/javascript/flavours/glitch/reducers/local_settings.js" \
+      -e "s/$1\s*:\s*.*/$1: $2, \/\/ updated by customize.sh/g" || true
   }
 
   set_default "show_reply_count" "true"
