@@ -1,3 +1,5 @@
+*.log
+
 # here be secrets
 *.env*
 !.env.example

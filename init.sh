@@ -4,13 +4,13 @@
 export MASTODON_USER=mastodon
 
 # default paths
-export MASTODON_ROOT="/home/$MASTODON_USER"   # home dir of the user above
-export UTILS_ROOT="$MASTODON_ROOT/utils"      # this repository
-export APP_ROOT="$MASTODON_ROOT/live"         # actual Mastodon files
-export BACKUPS_ROOT="$MASTODON_ROOT/backups"  # backups destination
-export LOGS_ROOT="$MASTODON_ROOT/logs"        # logs destintation
-export RBENV_ROOT="$MASTODON_ROOT/.rbenv"     # rbenv (w/ ruby-build plugin) directory
-export NVM_DIR="$MASTODON_ROOT/.nvm"          # nvm directory
+export MASTODON_ROOT="/home/$MASTODON_USER"  # home dir of the user above
+export UTILS_ROOT="$MASTODON_ROOT/utils"     # this repository
+export APP_ROOT="$MASTODON_ROOT/live"        # actual Mastodon files
+export BACKUPS_ROOT="$MASTODON_ROOT/backups" # backups destination
+export LOGS_ROOT="$MASTODON_ROOT/logs"       # logs destintation
+export RBENV_ROOT="$MASTODON_ROOT/.rbenv"    # rbenv (w/ ruby-build plugin) directory
+export NVM_DIR="$MASTODON_ROOT/.nvm"         # nvm directory
 
 # automatically detect glitch-soc
 # shellcheck disable=SC2155
@@ -75,7 +75,7 @@ as_mastodon() {
 
 # run 'bin/tootctl' as MASTODON_USER in APP_ROOT from anywhere (`tootctl version`)
 tootctl() {
-  ( cd "$APP_ROOT" && as_mastodon RAILS_ENV=production ruby ./bin/tootctl "$@" )
+  (cd "$APP_ROOT" && as_mastodon RAILS_ENV=production ruby ./bin/tootctl "$@")
 }
 
 # ---

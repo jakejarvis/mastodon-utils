@@ -10,6 +10,7 @@ set -o pipefail
 echo -e "\n===== weekly_cleanup.sh: started at $(date '+%Y-%m-%d %H:%M:%S') =====\n"
 
 # initialize paths
+# shellcheck disable=SC1091
 . "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 tootctl media remove --days 14

@@ -4,6 +4,7 @@
 set -euo pipefail
 
 # initialize paths
+# shellcheck disable=SC1091
 . "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 echo "* rbenv:    $(rbenv --version)"

@@ -14,6 +14,7 @@ if [ "$MY_NAME_IS_JAKE_JARVIS" != "pinky promise" ]; then
 fi
 
 # initialize paths (and silence warnings about things not existing yet because that's why we're running the installer.)
+# shellcheck disable=SC1091
 . "$(dirname "${BASH_SOURCE[0]}")"/../init.sh >/dev/null
 
 # check for existing installation
@@ -146,7 +147,10 @@ as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
 as_mastodon yarn install --pure-lockfile
 
 # set up database w/ random alphanumeric password
-DB_PASSWORD=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c32; echo)
+DB_PASSWORD=$(
+  tr </dev/urandom -dc A-Za-z0-9 | head -c32
+  echo
+)
 echo "CREATE USER $MASTODON_USER WITH PASSWORD '$DB_PASSWORD' CREATEDB" | sudo -u postgres psql -f -
 
 # populate .env.production config
@@ -283,14 +287,17 @@ as_mastodon touch "$LOGS_ROOT"/cron.log
 
 # set cleanup & backup tasks to run weekly
 # https://docs.joinmastodon.org/admin/setup/#cleanup
-(sudo crontab -l; echo -e "\n$INSTALLER_WUZ_HERE
+(
+  sudo crontab -l
+  echo -e "\n$INSTALLER_WUZ_HERE
 @weekly  bash -c \"$UTILS_ROOT/scripts/weekly_cleanup.sh >> $LOGS_ROOT/cron.log 2>&1\"
 @weekly  bash -c \"$UTILS_ROOT/scripts/backup.sh >> $LOGS_ROOT/cron.log 2>&1\"
 
 # automatically renew Let's Encrypt certificates
 # https://certbot.eff.org/instructions?ws=nginx&os=pip
 0 0,12 * * *  root  /opt/certbot/bin/python -c \"import random; import time; time.sleep(random.random() * 3600)\" && certbot renew -q
-") | sudo crontab -
+"
+) | sudo crontab -
 
 echo "🎉 done! don't forget to fill in .env.production with optional credentials"
 echo "https://$MASTODON_DOMAIN/auth/sign_in"

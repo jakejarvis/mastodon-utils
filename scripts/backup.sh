@@ -10,6 +10,7 @@ set -euo pipefail
 echo -e "\n===== backup.sh: started at $(date '+%Y-%m-%d %H:%M:%S') =====\n"
 
 # initialize paths
+# shellcheck disable=SC1091
 . "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 if [ "$(systemctl is-active mastodon-web.service)" = "active" ]; then

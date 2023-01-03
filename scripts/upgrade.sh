@@ -14,6 +14,7 @@ if [ "$MY_NAME_IS_JAKE_JARVIS" != "pinky promise" ]; then
 fi
 
 # initialize paths
+# shellcheck disable=SC1091
 . "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 # pull latest mastodon source

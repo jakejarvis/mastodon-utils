@@ -4,6 +4,7 @@
 set -euo pipefail
 
 # initialize paths
+# shellcheck disable=SC1091
 . "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 # re-detect glitch-soc
@@ -48,7 +49,7 @@ fi
 # ---
 
 # apply a more restrictive robots.txt
-as_mastodon tee "$APP_ROOT/public/robots.txt" > /dev/null <<EOT
+as_mastodon tee "$APP_ROOT/public/robots.txt" >/dev/null <<EOT
 # block everything except About page
 User-agent: *
 Allow: /about
