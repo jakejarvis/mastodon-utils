@@ -50,7 +50,7 @@ index fbb02c788..3946684ed 100644
  @import 'reset';
  @import 'basics';
 diff --git a/app/javascript/flavours/glitch/styles/variables.scss b/app/javascript/flavours/glitch/styles/variables.scss
-index b865b5a2d..dc1130708 100644
+index b865b5a2d..3d05840fc 100644
 --- a/app/javascript/flavours/glitch/styles/variables.scss
 +++ b/app/javascript/flavours/glitch/styles/variables.scss
 @@ -53,9 +53,9 @@ $media-modal-media-max-height: 80%;
@@ -60,9 +60,9 @@ index b865b5a2d..dc1130708 100644
 -$font-sans-serif: 'mastodon-font-sans-serif' !default;
 -$font-display: 'mastodon-font-display' !default;
 -$font-monospace: 'mastodon-font-monospace' !default;
-+$font-sans-serif: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue" !default;
++$font-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue" !default;
 +$font-display: $font-sans-serif !default;
-+$font-monospace: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New" !default;
++$font-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono" !default;
  
  // Avatar border size (8% default, 100% for rounded avatars)
  $ui-avatar-border-size: 8%;
