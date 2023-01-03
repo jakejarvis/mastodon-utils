@@ -3,8 +3,8 @@
 # exit when any step fails
 set -euo pipefail
 
-# initialize path
-. "$(dirname "$(realpath "$0")")"/../init.sh
+# initialize paths
+. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 echo "* rbenv:    $(rbenv --version)"
 echo "* nvm:      $(nvm --version)"

@@ -9,8 +9,8 @@ set -o pipefail
 
 echo -e "\n===== weekly_cleanup.sh: started at $(date '+%Y-%m-%d %H:%M:%S') =====\n"
 
-# initialize path
-. "$(dirname "$(realpath "$0")")"/../init.sh
+# initialize paths
+. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 tootctl media remove --days 14
 tootctl media remove --prune-profiles --days 90

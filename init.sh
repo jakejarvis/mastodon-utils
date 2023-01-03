@@ -81,4 +81,4 @@ tootctl() {
 # ---
 
 # keep track of whether this file has already been run
-export MASTODON_INIT_RUN=true
+export MASTODON_INIT_RUN=1

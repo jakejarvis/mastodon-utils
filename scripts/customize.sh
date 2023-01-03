@@ -3,10 +3,8 @@
 # exit when any step fails
 set -euo pipefail
 
-# initialize path (only if needed)
-if [ "${MASTODON_INIT_RUN:=}" != true ]; then
-  . "$(dirname "$(realpath "$0")")"/../init.sh
-fi
+# initialize paths
+. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 # re-detect glitch-soc
 MASTODON_IS_GLITCH="$(test -d "$APP_ROOT/app/javascript/flavours/glitch" && echo true || echo false)"
@@ -15,13 +13,13 @@ MASTODON_IS_GLITCH="$(test -d "$APP_ROOT/app/javascript/flavours/glitch" && echo
 
 # apply custom patches (skips errors)
 for f in "$UTILS_ROOT"/patches/*.patch; do
-  as_mastodon git apply --reject --allow-binary-replacement "$f" || true
+  as_mastodon git apply --reject --allow-binary-replacement "$f" || :
 done
 
 # apply additional glitch-only patches if applicable
 if [ "$MASTODON_IS_GLITCH" = true ]; then
   for f in "$UTILS_ROOT"/patches/glitch/*.patch; do
-    as_mastodon git apply --reject --allow-binary-replacement "$f" || true
+    as_mastodon git apply --reject --allow-binary-replacement "$f" || :
   done
 fi
 
@@ -77,7 +75,7 @@ if [ "$MASTODON_IS_GLITCH" = true ]; then
   set_default() {
     as_mastodon sed \
       -i "$APP_ROOT/app/javascript/flavours/glitch/reducers/local_settings.js" \
-      -e "s/$1\s*:\s*.*/$1: $2, \/\/ updated by customize.sh/g" || true
+      -e "s/$1\s*:\s*.*/$1: $2, \/\/ updated by customize.sh/g" || :
   }
 
   set_default "show_reply_count" "true"

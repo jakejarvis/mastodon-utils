@@ -13,8 +13,8 @@ if [ "$MY_NAME_IS_JAKE_JARVIS" != "pinky promise" ]; then
   exit 69
 fi
 
-# initialize path
-. "$(dirname "$(realpath "$0")")"/../init.sh
+# initialize paths
+. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 # pull latest mastodon source
 cd "$APP_ROOT"

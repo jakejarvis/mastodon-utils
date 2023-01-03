@@ -13,8 +13,8 @@ if [ "$MY_NAME_IS_JAKE_JARVIS" != "pinky promise" ]; then
   exit 69
 fi
 
-# initialize path (and silence warnings about things not existing yet because that's why we're running the installer...)
-. "$(dirname "$(realpath "$0")")"/../init.sh >/dev/null 2>&1
+# initialize paths (and silence warnings about things not existing yet because that's why we're running the installer.)
+. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh >/dev/null
 
 # check for existing installation
 if [ -d "$APP_ROOT" ]; then
@@ -39,7 +39,7 @@ sudo hostnamectl set-hostname "$MASTODON_DOMAIN"
 
 # create non-root user named MASTODON_USER (unless it already exists)
 if ! id -u "$MASTODON_USER" >/dev/null 2>&1; then
-  sudo adduser --gecos "Mastodon" --home "$MASTODON_ROOT" --disabled-login "$MASTODON_USER"
+  sudo adduser --gecos "" --home "$MASTODON_ROOT" --disabled-login "$MASTODON_USER" || :
   echo "[ -s \"$UTILS_ROOT/init.sh\" ] && \. \"$UTILS_ROOT/init.sh\" >/dev/null 2>&1" | sudo tee -a "$MASTODON_ROOT/.bashrc" >/dev/null
   sudo chown -R "$MASTODON_USER":"$MASTODON_USER" "$MASTODON_ROOT"
 fi
@@ -52,7 +52,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   gnupg \
   apt-transport-https \
   lsb-release \
-  ca-certificates
+  ca-certificates \
+  tzdata
 
 # add official postgresql apt repository
 curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /usr/share/keyrings/postgresql-archive-keyring.gpg
@@ -153,12 +154,17 @@ echo "$INSTALLER_WUZ_HERE
 
 LOCAL_DOMAIN=$MASTODON_USERNAME_DOMAIN
 WEB_DOMAIN=$MASTODON_DOMAIN
+SINGLE_USER_MODE=false
+
+WEB_CONCURRENCY=3
+MAX_THREADS=10
+STREAMING_CLUSTER_NUM=1
+RAILS_LOG_LEVEL=warn
 
 DB_HOST=localhost
 DB_USER=$MASTODON_USER
 DB_NAME=mastodon_production
 DB_PASS=$DB_PASSWORD
-
 # without pgbouncer:
 DB_PORT=5432
 # with pgbouncer: https://github.com/jakejarvis/mastodon-utils/wiki/Postgres-&-PgBouncer#pgbouncer
@@ -168,18 +174,13 @@ DB_PORT=5432
 REDIS_HOST=localhost
 REDIS_PORT=6379
 
-SECRET_KEY_BASE=$(as_mastodon RAILS_ENV=production bundle exec rake secret)
-OTP_SECRET=$(as_mastodon RAILS_ENV=production bundle exec rake secret)
-$(as_mastodon RAILS_ENV=production bundle exec rake mastodon:webpush:generate_vapid_key)
-
-SINGLE_USER_MODE=false
-IP_RETENTION_PERIOD=31556952
-SESSION_RETENTION_PERIOD=31556952
-RAILS_LOG_LEVEL=warn
-
-WEB_CONCURRENCY=3
-MAX_THREADS=10
-STREAMING_CLUSTER_NUM=1
+# get SES credentials: https://us-east-1.console.aws.amazon.com/ses/home?region=us-east-1#/smtp
+# ...or use SendGrid, MailGun, AWS SES, etc...
+# SMTP_SERVER=email-smtp.us-east-1.amazonaws.com
+# SMTP_PORT=587
+# SMTP_FROM_ADDRESS=\"Mastodon <noreply@$MASTODON_DOMAIN>\"
+# SMTP_LOGIN=XXXXXXXX
+# SMTP_PASSWORD=XXXXXXXX
 
 # uses linode, not brand name S3: https://cloud.linode.com/object-storage/buckets/create
 # AWS_ACCESS_KEY_ID=XXXXXXXX
@@ -191,22 +192,23 @@ STREAMING_CLUSTER_NUM=1
 # S3_ENDPOINT=https://us-east-1.linodeobjects.com
 # S3_ALIAS_HOST=my-bucket.us-east-1.linodeobjects.com
 
-# get SES credentials: https://us-east-1.console.aws.amazon.com/ses/home?region=us-east-1#/smtp
-# SMTP_SERVER=email-smtp.us-east-1.amazonaws.com
-# SMTP_PORT=587
-# SMTP_FROM_ADDRESS=\"Mastodon <noreply@$MASTODON_DOMAIN>\"
-# SMTP_LOGIN=XXXXXXXX
-# SMTP_PASSWORD=XXXXXXXX
-
 # https://github.com/jakejarvis/mastodon-utils/wiki/ElasticSearch
 # ES_ENABLED=true
 # ES_HOST=localhost
 # ES_PORT=9200
-# ES_USER=optional
-# ES_PASS=optional
+# optional, not enabled by default:
+# ES_USER=
+# ES_PASS=
 
 # https://github.com/jakejarvis/mastodon-utils/wiki/Prometheus-&-Grafana
-# STATSD_ADDR=localhost:9125" | as_mastodon tee "$APP_ROOT/.env.production" >/dev/null
+# STATSD_ADDR=localhost:9125
+
+IP_RETENTION_PERIOD=31556952
+SESSION_RETENTION_PERIOD=31556952
+
+SECRET_KEY_BASE=$(as_mastodon RAILS_ENV=production bundle exec rake secret)
+OTP_SECRET=$(as_mastodon RAILS_ENV=production bundle exec rake secret)
+$(as_mastodon RAILS_ENV=production bundle exec rake mastodon:webpush:generate_vapid_key)" | as_mastodon tee "$APP_ROOT/.env.production" >/dev/null
 
 # manually setup db
 as_mastodon RAILS_ENV=production SAFETY_ASSURED=1 bundle exec rails db:setup
@@ -237,7 +239,7 @@ sudo certbot certonly \
 sudo mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 sudo cp "$UTILS_ROOT"/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 sudo sed -i /etc/nginx/nginx.conf -e "s|user nginx;|user $MASTODON_USER;|g"
-sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled /etc/nginx/snippets
 sudo cp -f "$UTILS_ROOT"/etc/nginx/sites-available/*.conf /etc/nginx/sites-available/
 sudo sed \
   -i /etc/nginx/sites-available/mastodon.conf \
@@ -245,7 +247,8 @@ sudo sed \
   -e "s|/home/mastodon/live|$APP_ROOT|g"
 sudo ln -sf /etc/nginx/sites-available/mastodon.conf /etc/nginx/sites-enabled/mastodon.conf
 # sudo ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
-sudo cp -f "$UTILS_ROOT"/etc/nginx/modules/* /usr/lib/nginx/modules/
+sudo cp -f "$UTILS_ROOT"/etc/nginx/snippets/*.conf /etc/nginx/snippets/
+sudo cp -f "$UTILS_ROOT"/etc/nginx/modules/*.so /usr/lib/nginx/modules/
 sudo nginx -t
 
 # configure mastodon systemd services
