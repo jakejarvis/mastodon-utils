@@ -7,7 +7,7 @@ set -euo pipefail
 # shellcheck disable=SC1091
 . "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
-# re-detect glitch-soc
+# re-detect glitch-soc (answer might have changed since first sourcing init.sh)
 MASTODON_IS_GLITCH="$(test -d "$APP_ROOT/app/javascript/flavours/glitch" && echo true || echo false)"
 
 # ---
@@ -41,8 +41,8 @@ if [ "$MASTODON_IS_GLITCH" = true ]; then
     "public/riot-glitch.png"
   )
 
-  for f in "${removePaths[@]}"; do
-    as_mastodon rm -rf --preserve-root "$APP_ROOT/$f"
+  for r in "${removePaths[@]}"; do
+    as_mastodon rm -rf --preserve-root "$APP_ROOT/$r"
   done
 fi
 

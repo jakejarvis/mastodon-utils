@@ -30,6 +30,7 @@ jobs:
         env:
           DEFAULT_BRANCH: "main"
           FILTER_REGEX_EXCLUDE: .*etc/.*
+          VALIDATE_ENV: false
           VALIDATE_MARKDOWN: false
           VALIDATE_NATURAL_LANGUAGE: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -24,6 +24,9 @@ mkdir -p /home/mastodon
 git clone https://github.com/jakejarvis/mastodon-utils.git /home/mastodon/utils
 cd /home/mastodon/utils
 
+# override default environment variables if necessary:
+cp .env.example .env
+
 # install Mastodon on fresh Ubuntu box:
 ./scripts/install.sh
 
@@ -37,13 +40,14 @@ cd /home/mastodon/utils
 ## Scripts
 
 - [`init.sh`](init.sh): A small helper that runs at the very beginning of each script below to initialize `nvm`/`rbenv` and set consistent environment variables.
+  - **Optional:** The default values of each config variable can be seen in [`.env.example`](.env.example). Create a new file named `.env` in the root of this repository (probably at `/home/mastodon/utils/.env`) to override any or all of them.
   - **Optional:** To make your life easier, you can also source this script from the `.bashrc` of the `mastodon` user and/or whichever user you regularly SSH in as:
 
 ```sh
 [ -s /home/mastodon/utils/init.sh ] && \. /home/mastodon/utils/init.sh >/dev/null 2>&1
 ```
 
-- [`version.sh`](scripts/version.sh): Tests `init.sh` by printing the versions of Mastodon, rbenv, nvm, Ruby, Node, and Yarn.
+- [`version.sh`](scripts/version.sh): A quick and easy way to test `init.sh` and `.env` by printing the version numbers of Mastodon, rbenv, nvm, Ruby, Node, and Yarn.
 
 #### Periodic tasks
 
@@ -56,7 +60,7 @@ cd /home/mastodon/utils
 
 **The following scripts are highly opinionated, catastrophically destructive, and very specific to me.** Check them out line-by-line instead of running them.
 
-- [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_USER` and other paths in [`init.sh`](init.sh) first if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
+- [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_USER` and other paths in `.env` first (see [`.env.example`](.env.example)) if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
 - [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and ***re-applies all customizations***. [Get the far less dangerous version of `upgrade.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh)
 - [`customize.sh`](scripts/customize.sh): Applies ***every Git patch below***, sets defaults (mostly for logged-out visitors) and removes unused files.
 

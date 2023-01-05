@@ -14,46 +14,51 @@ echo -e "\n===== backup.sh: started at $(date '+%Y-%m-%d %H:%M:%S') =====\n"
 . "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 if [ "$(systemctl is-active mastodon-web.service)" = "active" ]; then
-  echo "⚠️  Mastodon is currently running."
+  echo "⚠ Mastodon is currently running."
   echo "We'll start the backup anyways, but if it's a critical one, stop all Mastodon"
   echo "services first with 'systemctl stop mastodon-*' and run this again."
   echo ""
 fi
 
 if [ ! -d "$BACKUPS_ROOT" ]; then
-  as_mastodon mkdir -p "$BACKUPS_ROOT"
+  sudo mkdir -p "$BACKUPS_ROOT"
 fi
 
-TEMP_DIR=$(as_mastodon mktemp -d)
+# TODO: ugly, do better
+TEMP_DIR=$(sudo mktemp -d)
+sudo chmod 777 "$TEMP_DIR"
 
-echo "Backing up Postgres..."
-as_mastodon pg_dump -Fc mastodon_production -f "$TEMP_DIR/postgres.dump"
+echo "* Backing up Postgres..."
+sudo -u postgres pg_dump -Fc mastodon_production -f "$TEMP_DIR/postgres.dump"
 
-echo "Backing up Redis..."
+echo "* Backing up Redis..."
 sudo cp /var/lib/redis/dump.rdb "$TEMP_DIR/redis.rdb"
 
-echo "Backing up secrets..."
+echo "* Backing up secrets..."
 sudo cp "$APP_ROOT/.env.production" "$TEMP_DIR/env.production"
 
-echo "Backing up certs..."
+echo "* Backing up certs..."
 sudo mkdir -p "$TEMP_DIR/certs"
 sudo cp -r /etc/letsencrypt/{archive,live,renewal} "$TEMP_DIR/certs/"
 
-echo "Compressing..."
+echo "* Compressing..."
 ARCHIVE_DEST="$BACKUPS_ROOT/mastodon-$(date "+%Y.%m.%d-%H.%M.%S").tar.gz"
 sudo tar --owner=0 --group=0 -czvf "$ARCHIVE_DEST" -C "$TEMP_DIR" .
 sudo chown "$MASTODON_USER":"$MASTODON_USER" "$ARCHIVE_DEST"
 
-echo "Removing temp files..."
+echo "* Fixing permissions..."
+sudo chown -R "$MASTODON_USER":"$MASTODON_USER" "$BACKUPS_ROOT"
+
+echo "* Removing temp files..."
 sudo rm -rf --preserve-root "$TEMP_DIR"
 
-echo "Saved to $ARCHIVE_DEST"
+echo "* Saved archive to '$ARCHIVE_DEST'"
 
 if [ -s /usr/local/bin/linode-cli ]; then
-  echo "Uploading to S3..."
+  echo "* Uploading to S3..."
   sudo /usr/local/bin/linode-cli obj put "$ARCHIVE_DEST" jarvis-backup
 fi
 
-echo "🎉 done! (keep this archive safe!)"
+echo "* 🎉 done! (keep this archive safe!)"
 
 echo -e "\n===== backup.sh: finished at $(date '+%Y-%m-%d %H:%M:%S') =====\n"

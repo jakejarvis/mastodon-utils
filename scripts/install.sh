@@ -3,10 +3,7 @@
 # exit when any step fails
 set -euo pipefail
 
-# :)
-MY_NAME_IS_JAKE_JARVIS="false"
-
-# can't say you weren't warned
+# can't say you weren't warned :)
 if [ "$MY_NAME_IS_JAKE_JARVIS" != "pinky promise" ]; then
   echo "🚨 LISTEN UP!!!! YOU PROBABLY WANT THIS SCRIPT INSTEAD:"
   echo "https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh"
@@ -19,7 +16,7 @@ fi
 
 # check for existing installation
 if [ -d "$APP_ROOT" ]; then
-  echo "⚠️ $APP_ROOT already exists. Are you sure Mastodon isn't already installed?"
+  echo "⚠ $APP_ROOT already exists. Are you sure Mastodon isn't already installed?"
   exit 255
 fi
 
@@ -128,6 +125,7 @@ as_mastodon git checkout "$(as_mastodon git tag -l | grep -v 'rc[0-9]*$' | sort 
 # as_mastodon git checkout glitch-soc/main
 
 # apply customizations
+# shellcheck disable=SC1091
 . "$UTILS_ROOT"/scripts/customize.sh
 
 # install ruby
