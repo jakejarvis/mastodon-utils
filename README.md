@@ -51,14 +51,16 @@ cp .env.example .env
 
 #### Periodic tasks
 
-- [`backup.sh`](scripts/backup.sh): Backs up Postgres, Redis, and `.env.production` secrets to a `.tar.gz` file in `/home/mastodon/backups` — useful for a [periodic cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cron-jobs#backups).
-- [`weekly_cleanup.sh`](scripts/weekly_cleanup.sh): Runs Mastodon's built-in [cleanup commands](https://docs.joinmastodon.org/admin/setup/#cleanup), designed for a [weekly cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cron-jobs#media-cleanup).
+- [`backup.sh`](scripts/backup.sh): Backs up Postgres, Redis, and `.env.production` secrets to a `.tar.gz` file in `$MASTODON_ROOT/backups`. Useful for a [daily cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cron-jobs#backups).
+  - Keeps archives for the last 5 days, last 4 weeks, and every month
+  - Optionally uploads to S3 with [`s3cmd`](https://s3tools.org/s3cmd)
+- [`purge.sh`](scripts/purge.sh): Runs Mastodon's built-in [cleanup commands](https://docs.joinmastodon.org/admin/setup/#cleanup), designed for a [weekly cronjob](https://github.com/jakejarvis/mastodon-utils/wiki/Cron-jobs#media-cleanup).
   - Keeps 14 days of media
   - Keeps 90 days of profile avatars, headers, and link preview cards
 
 #### Dangerous
 
-**The following scripts are highly opinionated, catastrophically destructive, and very specific to me.** Check them out line-by-line instead of running them.
+> **🚨 The following scripts are highly opinionated, catastrophically destructive, and very specific to me.** Check them out line-by-line instead of running them.
 
 - [`install.sh`](scripts/install.sh): Assumes an absolutely clean install of Ubuntu and installs Mastodon ***with all of the quirks from this repo.*** Configure `MASTODON_USER` and other paths in `.env` first (see [`.env.example`](.env.example)) if necessary. [Get the far less dangerous version of `install.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh)
 - [`upgrade.sh`](scripts/upgrade.sh): Upgrades Mastodon server (latest version if vanilla Mastodon, latest commit if `glitch-soc`) and ***re-applies all customizations***. [Get the far less dangerous version of `upgrade.sh` here instead.](https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh)

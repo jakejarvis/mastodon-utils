@@ -20,7 +20,6 @@ export BACKUPS_ROOT="${BACKUPS_ROOT:="$MASTODON_ROOT/backups"}"
 export LOGS_ROOT="${LOGS_ROOT:="$MASTODON_ROOT/logs"}"
 export RBENV_ROOT="${RBENV_ROOT:="$MASTODON_ROOT/.rbenv"}"
 export NVM_DIR="${NVM_DIR:="$MASTODON_ROOT/.nvm"}"
-export MY_NAME_IS_JAKE_JARVIS="${MY_NAME_IS_JAKE_JARVIS:="false"}"
 
 # automatically detect glitch-soc
 # shellcheck disable=SC2155

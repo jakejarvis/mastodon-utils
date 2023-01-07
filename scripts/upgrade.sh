@@ -3,16 +3,16 @@
 # exit when any step fails
 set -euo pipefail
 
+# initialize paths
+# shellcheck disable=SC1091
+. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
+
 # can't say you weren't warned :)
-if [ "$MY_NAME_IS_JAKE_JARVIS" != "pinky promise" ]; then
+if [ "${MY_NAME_IS_JAKE_JARVIS:=}" != "pinky promise" ]; then
   echo "🚨 LISTEN UP!!!! YOU PROBABLY WANT THIS SCRIPT INSTEAD:"
   echo "https://github.com/jakejarvis/mastodon-installer/blob/main/upgrade.sh"
   exit 69
 fi
-
-# initialize paths
-# shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh
 
 # pull latest mastodon source
 cd "$APP_ROOT"
@@ -43,7 +43,7 @@ as_mastodon nvm install
 as_mastodon nvm use
 as_mastodon npm install --global yarn
 # install deps
-as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
+as_mastodon bundle check || as_mastodon bundle install --jobs "$(getconf _NPROCESSORS_ONLN)"
 as_mastodon yarn install --pure-lockfile
 
 # compile new assets

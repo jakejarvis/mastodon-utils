@@ -3,16 +3,16 @@
 # exit when any step fails
 set -euo pipefail
 
+# initialize paths (and silence warnings about things not existing yet because that's why we're running the installer.)
+# shellcheck disable=SC1091
+. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh >/dev/null
+
 # can't say you weren't warned :)
-if [ "$MY_NAME_IS_JAKE_JARVIS" != "pinky promise" ]; then
+if [ "${MY_NAME_IS_JAKE_JARVIS:=}" != "pinky promise" ]; then
   echo "🚨 LISTEN UP!!!! YOU PROBABLY WANT THIS SCRIPT INSTEAD:"
   echo "https://github.com/jakejarvis/mastodon-installer/blob/main/install.sh"
   exit 69
 fi
-
-# initialize paths (and silence warnings about things not existing yet because that's why we're running the installer.)
-# shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")"/../init.sh >/dev/null
 
 # check for existing installation
 if [ -d "$APP_ROOT" ]; then
@@ -288,7 +288,7 @@ as_mastodon touch "$LOGS_ROOT"/cron.log
 (
   sudo crontab -l
   echo -e "\n$INSTALLER_WUZ_HERE
-@weekly  bash -c \"$UTILS_ROOT/scripts/weekly_cleanup.sh >> $LOGS_ROOT/cron.log 2>&1\"
+@weekly  bash -c \"$UTILS_ROOT/scripts/purge.sh >> $LOGS_ROOT/cron.log 2>&1\"
 @weekly  bash -c \"$UTILS_ROOT/scripts/backup.sh >> $LOGS_ROOT/cron.log 2>&1\"
 
 # automatically renew Let's Encrypt certificates
