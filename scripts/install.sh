@@ -281,20 +281,21 @@ tootctl accounts create \
 
 # create directory for cron logdrain
 as_mastodon mkdir -p "$LOGS_ROOT"
-as_mastodon touch "$LOGS_ROOT"/cron.log
+as_mastodon touch "$LOGS_ROOT"/cron-{purge,backup}.log
 
 # set cleanup & backup tasks to run weekly
 # https://docs.joinmastodon.org/admin/setup/#cleanup
 (
   sudo crontab -l
   echo -e "\n$INSTALLER_WUZ_HERE
-@weekly  bash -c \"$UTILS_ROOT/scripts/purge.sh >> $LOGS_ROOT/cron.log 2>&1\"
-@weekly  bash -c \"$UTILS_ROOT/scripts/backup.sh >> $LOGS_ROOT/cron.log 2>&1\"
+# purge old media weekly
+@weekly	bash -c \"$UTILS_ROOT/scripts/purge.sh >> $LOGS_ROOT/cron-purge.log 2>&1\"
+# create & rotate backups daily
+@daily	bash -c \"$UTILS_ROOT/scripts/backup.sh >> $LOGS_ROOT/cron-backup.log 2>&1\"
 
-# automatically renew Let's Encrypt certificates
-# https://certbot.eff.org/instructions?ws=nginx&os=pip
-0 0,12 * * *  root  /opt/certbot/bin/python -c \"import random; import time; time.sleep(random.random() * 3600)\" && certbot renew -q
-"
+# automatically renew Let's Encrypt certificates:
+# https://certbot.eff.org/instructions?ws=other&os=pip
+0 0,12 * * *	/opt/certbot/bin/python -c \"import random; import time; time.sleep(random.random() * 3600)\" && certbot renew -q"
 ) | sudo crontab -
 
 echo "🎉 done! don't forget to fill in .env.production with optional credentials"

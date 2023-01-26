@@ -1,8 +1,39 @@
 diff --git a/app/javascript/flavours/glitch/features/interaction_modal/index.js b/app/javascript/flavours/glitch/features/interaction_modal/index.js
-index b71c041c9..b9bb32341 100644
+index b71c041c9d..a934178753 100644
 --- a/app/javascript/flavours/glitch/features/interaction_modal/index.js
 +++ b/app/javascript/flavours/glitch/features/interaction_modal/index.js
-@@ -145,7 +145,6 @@ class InteractionModal extends React.PureComponent {
+@@ -1,7 +1,6 @@
+ import React from 'react';
+ import PropTypes from 'prop-types';
+ import { FormattedMessage } from 'react-intl';
+-import { registrationsOpen } from 'flavours/glitch/initial_state';
+ import { connect } from 'react-redux';
+ import Icon from 'flavours/glitch/components/icon';
+ import classNames from 'classnames';
+@@ -118,22 +117,6 @@ class InteractionModal extends React.PureComponent {
+       break;
+     }
+ 
+-    let signupButton;
+-
+-    if (registrationsOpen) {
+-      signupButton = (
+-        <a href='/auth/sign_up' className='button button--block button-tertiary'>
+-          <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
+-        </a>
+-      );
+-    } else {
+-      signupButton = (
+-        <button className='button button--block button-tertiary' onClick={this.handleSignupClick}>
+-          <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
+-        </button>
+-      );
+-    }
+-
+     return (
+       <div className='modal-root__modal interaction-modal'>
+         <div className='interaction-modal__lead'>
+@@ -145,7 +128,6 @@ class InteractionModal extends React.PureComponent {
            <div className='interaction-modal__choices__choice'>
              <h3><FormattedMessage id='interaction_modal.on_this_server' defaultMessage='On this server' /></h3>
              <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
@@ -11,10 +42,47 @@ index b71c041c9..b9bb32341 100644
  
            <div className='interaction-modal__choices__choice'>
 diff --git a/app/javascript/flavours/glitch/features/ui/components/header.js b/app/javascript/flavours/glitch/features/ui/components/header.js
-index d9ad94961..9a1f31531 100644
+index d9ad949611..436c001f74 100644
 --- a/app/javascript/flavours/glitch/features/ui/components/header.js
 +++ b/app/javascript/flavours/glitch/features/ui/components/header.js
-@@ -69,7 +69,6 @@ class Header extends React.PureComponent {
+@@ -2,7 +2,7 @@ import React from 'react';
+ import Logo from 'flavours/glitch/components/logo';
+ import { Link, withRouter } from 'react-router-dom';
+ import { FormattedMessage } from 'react-intl';
+-import { registrationsOpen, me } from 'flavours/glitch/initial_state';
++import { me } from 'flavours/glitch/initial_state';
+ import Avatar from 'flavours/glitch/components/avatar';
+ import Permalink from 'flavours/glitch/components/permalink';
+ import PropTypes from 'prop-types';
+@@ -38,7 +38,7 @@ class Header extends React.PureComponent {
+ 
+   render () {
+     const { signedIn } = this.context.identity;
+-    const { location, openClosedRegistrationsModal } = this.props;
++    const { location } = this.props;
+ 
+     let content;
+ 
+@@ -50,26 +50,9 @@ class Header extends React.PureComponent {
+         </>
+       );
+     } else {
+-      let signupButton;
+-
+-      if (registrationsOpen) {
+-        signupButton = (
+-          <a href='/auth/sign_up' className='button button-tertiary'>
+-            <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
+-          </a>
+-        );
+-      } else {
+-        signupButton = (
+-          <button className='button button-tertiary' onClick={openClosedRegistrationsModal}>
+-            <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
+-          </button>
+-        );
+-      }
+-
        content = (
          <>
            <a href='/auth/sign_in' className='button'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
@@ -23,12 +91,44 @@ index d9ad94961..9a1f31531 100644
        );
      }
 diff --git a/app/javascript/flavours/glitch/features/ui/components/sign_in_banner.js b/app/javascript/flavours/glitch/features/ui/components/sign_in_banner.js
-index e8023803f..d8c332f08 100644
+index c0d62aca00..eda16f2654 100644
 --- a/app/javascript/flavours/glitch/features/ui/components/sign_in_banner.js
 +++ b/app/javascript/flavours/glitch/features/ui/components/sign_in_banner.js
-@@ -32,7 +32,6 @@ const SignInBanner = () => {
+@@ -1,38 +1,11 @@
+-import React, { useCallback } from 'react';
++import React from 'react';
+ import { FormattedMessage } from 'react-intl';
+-import { useDispatch } from 'react-redux';
+-import { registrationsOpen } from 'flavours/glitch/initial_state';
+-import { openModal } from 'flavours/glitch/actions/modal';
+ 
+ const SignInBanner = () => {
+-  const dispatch = useDispatch();
+-
+-  const openClosedRegistrationsModal = useCallback(
+-    () => dispatch(openModal('CLOSED_REGISTRATIONS')),
+-    [dispatch],
+-  );
+-
+-  let signupButton;
+-
+-  if (registrationsOpen) {
+-    signupButton = (
+-      <a href='/auth/sign_up' className='button button--block button-tertiary'>
+-        <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
+-      </a>
+-    );
+-  } else {
+-    signupButton = (
+-      <button className='button button--block button-tertiary' onClick={openClosedRegistrationsModal}>
+-        <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
+-      </button>
+-    );
+-  }
+-
+   return (
      <div className='sign-in-banner'>
-       <p><FormattedMessage id='sign_in_banner.text' defaultMessage='Sign in to follow profiles or hashtags, favourite, share and reply to posts, or interact from your account on a different server.' /></p>
+       <p><FormattedMessage id='sign_in_banner.text' defaultMessage='Sign in to follow profiles or hashtags, favourite, share and reply to posts. You can also interact from your account on a different server.' /></p>
        <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
 -      {signupButton}
      </div>

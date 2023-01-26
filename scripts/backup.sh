@@ -72,7 +72,7 @@ if [ -n "${BACKUP_S3_BUCKET:+x}" ] && command -v s3cmd >/dev/null 2>&1; then
   echo "* Uploading to S3..."
   sudo s3cmd sync --delete-removed "$BACKUPS_ROOT/" "s3://$BACKUP_S3_BUCKET" || :
 else
-  echo "⚠ Skipping S3 upload; check that 's3cmd' is present in \$PATH, and \$BACKUP_S3_BUCKET is set."
+  echo "⚠ Skipping S3 upload; check that 's3cmd' is installed, and \$BACKUP_S3_BUCKET is set."
 fi
 
 echo "* Removing temp files..."
