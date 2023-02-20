@@ -1,5 +1,5 @@
 diff --git a/app/javascript/styles/application.scss b/app/javascript/styles/application.scss
-index 81a040108..01c840180 100644
+index 81a040108e..01c840180a 100644
 --- a/app/javascript/styles/application.scss
 +++ b/app/javascript/styles/application.scss
 @@ -1,7 +1,5 @@
@@ -11,7 +11,7 @@ index 81a040108..01c840180 100644
  @import 'mastodon/reset';
  @import 'mastodon/basics';
 diff --git a/app/javascript/styles/mailer.scss b/app/javascript/styles/mailer.scss
-index 18fe522eb..16ffb8b2f 100644
+index 18fe522eb2..16ffb8b2fe 100644
 --- a/app/javascript/styles/mailer.scss
 +++ b/app/javascript/styles/mailer.scss
 @@ -1,5 +1,4 @@
@@ -21,10 +21,10 @@ index 18fe522eb..16ffb8b2f 100644
  table,
  td,
 diff --git a/app/javascript/styles/mastodon/basics.scss b/app/javascript/styles/mastodon/basics.scss
-index 413a1cdd6..fccbf2763 100644
+index 1d08b12e57..893e86a97a 100644
 --- a/app/javascript/styles/mastodon/basics.scss
 +++ b/app/javascript/styles/mastodon/basics.scss
-@@ -19,21 +19,6 @@ body {
+@@ -19,23 +19,6 @@ body {
    -webkit-tap-highlight-color: rgba(0, 0, 0, 0%);
    -webkit-tap-highlight-color: transparent;
  
@@ -40,17 +40,19 @@ index 413a1cdd6..fccbf2763 100644
 -    // Droid Sans => Older Androids (<4.0)
 -    // Helvetica Neue => Older macOS <10.11
 -    // $font-sans-serif => web-font (Roboto) fallback and newer Androids (>=4.0)
--    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", $font-sans-serif, sans-serif;
+-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+-      Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+-      $font-sans-serif, sans-serif;
 -  }
 -
    &.app-body {
      padding: 0;
  
 diff --git a/app/javascript/styles/mastodon/variables.scss b/app/javascript/styles/mastodon/variables.scss
-index 2f6c41d5f..5d59e8c2e 100644
+index 7de25f8fd4..e0a8ab5751 100644
 --- a/app/javascript/styles/mastodon/variables.scss
 +++ b/app/javascript/styles/mastodon/variables.scss
-@@ -55,6 +55,6 @@ $media-modal-media-max-height: 80%;
+@@ -58,6 +58,6 @@ $media-modal-media-max-height: 80%;
  
  $no-gap-breakpoint: 1175px;
  
