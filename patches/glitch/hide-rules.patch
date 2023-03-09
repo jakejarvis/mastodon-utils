@@ -1,7 +1,7 @@
-diff --git a/app/javascript/flavours/glitch/features/about/index.js b/app/javascript/flavours/glitch/features/about/index.js
-index 57f295ea9..e27a30292 100644
---- a/app/javascript/flavours/glitch/features/about/index.js
-+++ b/app/javascript/flavours/glitch/features/about/index.js
+diff --git a/app/javascript/flavours/glitch/features/about/index.jsx b/app/javascript/flavours/glitch/features/about/index.jsx
+index 1e0a8666ab..8e8d5d8325 100644
+--- a/app/javascript/flavours/glitch/features/about/index.jsx
++++ b/app/javascript/flavours/glitch/features/about/index.jsx
 @@ -15,7 +15,6 @@ import Image from 'flavours/glitch/components/image';
  
  const messages = defineMessages({

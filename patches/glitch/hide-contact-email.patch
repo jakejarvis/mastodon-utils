@@ -1,7 +1,7 @@
-diff --git a/app/javascript/flavours/glitch/features/about/index.js b/app/javascript/flavours/glitch/features/about/index.js
-index 57f295ea9..0992ba767 100644
---- a/app/javascript/flavours/glitch/features/about/index.js
-+++ b/app/javascript/flavours/glitch/features/about/index.js
+diff --git a/app/javascript/flavours/glitch/features/about/index.jsx b/app/javascript/flavours/glitch/features/about/index.jsx
+index 1e0a8666ab..45d1375bd8 100644
+--- a/app/javascript/flavours/glitch/features/about/index.jsx
++++ b/app/javascript/flavours/glitch/features/about/index.jsx
 @@ -127,14 +127,6 @@ class About extends React.PureComponent {
  
                <Account id={server.getIn(['contact', 'account', 'id'])} size={36} />

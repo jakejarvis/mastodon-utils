@@ -1,7 +1,7 @@
-diff --git a/app/javascript/flavours/glitch/features/ui/components/navigation_panel.js b/app/javascript/flavours/glitch/features/ui/components/navigation_panel.js
-index 3b46c6eec..f2465482f 100644
---- a/app/javascript/flavours/glitch/features/ui/components/navigation_panel.js
-+++ b/app/javascript/flavours/glitch/features/ui/components/navigation_panel.js
+diff --git a/app/javascript/flavours/glitch/features/ui/components/navigation_panel.jsx b/app/javascript/flavours/glitch/features/ui/components/navigation_panel.jsx
+index 3b46c6eec0..f2465482fd 100644
+--- a/app/javascript/flavours/glitch/features/ui/components/navigation_panel.jsx
++++ b/app/javascript/flavours/glitch/features/ui/components/navigation_panel.jsx
 @@ -2,6 +2,7 @@ import React from 'react';
  import PropTypes from 'prop-types';
  import { defineMessages, injectIntl } from 'react-intl';

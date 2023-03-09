@@ -1,7 +1,7 @@
-diff --git a/app/javascript/mastodon/features/interaction_modal/index.js b/app/javascript/mastodon/features/interaction_modal/index.js
-index d4535378f0..285fe2ba3a 100644
---- a/app/javascript/mastodon/features/interaction_modal/index.js
-+++ b/app/javascript/mastodon/features/interaction_modal/index.js
+diff --git a/app/javascript/mastodon/features/interaction_modal/index.jsx b/app/javascript/mastodon/features/interaction_modal/index.jsx
+index c1d346fed4..86eeeb14e1 100644
+--- a/app/javascript/mastodon/features/interaction_modal/index.jsx
++++ b/app/javascript/mastodon/features/interaction_modal/index.jsx
 @@ -1,7 +1,6 @@
  import React from 'react';
  import PropTypes from 'prop-types';
@@ -41,10 +41,10 @@ index d4535378f0..285fe2ba3a 100644
            </div>
  
            <div className='interaction-modal__choices__choice'>
-diff --git a/app/javascript/mastodon/features/ui/components/header.js b/app/javascript/mastodon/features/ui/components/header.js
-index 1384bebda0..10d6f70bb7 100644
---- a/app/javascript/mastodon/features/ui/components/header.js
-+++ b/app/javascript/mastodon/features/ui/components/header.js
+diff --git a/app/javascript/mastodon/features/ui/components/header.jsx b/app/javascript/mastodon/features/ui/components/header.jsx
+index 92adc47a9c..c0e0bdb460 100644
+--- a/app/javascript/mastodon/features/ui/components/header.jsx
++++ b/app/javascript/mastodon/features/ui/components/header.jsx
 @@ -2,7 +2,7 @@ import React from 'react';
  import Logo from 'mastodon/components/logo';
  import { Link, withRouter } from 'react-router-dom';
@@ -90,10 +90,10 @@ index 1384bebda0..10d6f70bb7 100644
          </>
        );
      }
-diff --git a/app/javascript/mastodon/features/ui/components/sign_in_banner.js b/app/javascript/mastodon/features/ui/components/sign_in_banner.js
+diff --git a/app/javascript/mastodon/features/ui/components/sign_in_banner.jsx b/app/javascript/mastodon/features/ui/components/sign_in_banner.jsx
 index 86fcc11b56..eda16f2654 100644
---- a/app/javascript/mastodon/features/ui/components/sign_in_banner.js
-+++ b/app/javascript/mastodon/features/ui/components/sign_in_banner.js
+--- a/app/javascript/mastodon/features/ui/components/sign_in_banner.jsx
++++ b/app/javascript/mastodon/features/ui/components/sign_in_banner.jsx
 @@ -1,38 +1,11 @@
 -import React, { useCallback } from 'react';
 +import React from 'react';
