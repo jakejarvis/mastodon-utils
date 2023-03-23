@@ -40,7 +40,7 @@ index 65060f4224..8b81916d66 100644
        color: $primary-text-color;
        font-size: 14px;
 diff --git a/app/javascript/flavours/glitch/styles/index.scss b/app/javascript/flavours/glitch/styles/index.scss
-index fbb02c7884..3946684ed2 100644
+index 1cb913c8b8..aa81487916 100644
 --- a/app/javascript/flavours/glitch/styles/index.scss
 +++ b/app/javascript/flavours/glitch/styles/index.scss
 @@ -1,7 +1,5 @@
@@ -51,11 +51,11 @@ index fbb02c7884..3946684ed2 100644
  
  @import 'reset';
  @import 'basics';
-diff --git a/app/javascript/styles/mastodon/variables.scss b/app/javascript/styles/mastodon/variables.scss
-index 7de25f8fd4..e0a8ab5751 100644
---- a/app/javascript/styles/mastodon/variables.scss
-+++ b/app/javascript/styles/mastodon/variables.scss
-@@ -58,6 +58,6 @@ $media-modal-media-max-height: 80%;
+diff --git a/app/javascript/flavours/glitch/styles/variables.scss b/app/javascript/flavours/glitch/styles/variables.scss
+index 0132da51f3..108dd7f66c 100644
+--- a/app/javascript/flavours/glitch/styles/variables.scss
++++ b/app/javascript/flavours/glitch/styles/variables.scss
+@@ -58,9 +58,9 @@ $media-modal-media-max-height: 80%;
  
  $no-gap-breakpoint: 1175px;
  
@@ -65,3 +65,6 @@ index 7de25f8fd4..e0a8ab5751 100644
 +$font-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue" !default;
 +$font-display: $font-sans-serif !default;
 +$font-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono" !default;
+ 
+ // Avatar border size (8% default, 100% for rounded avatars)
+ $ui-avatar-border-size: 8%;
